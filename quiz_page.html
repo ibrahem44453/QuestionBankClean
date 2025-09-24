@@ -5,25 +5,119 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>وضع الكويز - بنك الأسئلة</title>
   <style>
+    :root {
+      --bg: #0f1724;
+      --card: #0b1220;
+      --accent: #06b6d4;
+      --muted: #94a3b8;
+      --text: #e6eef6;
+      color-scheme: dark;
+    }
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f1f5f9;
-      color: #1e293b;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Naskh Arabic", Arial;
       margin: 0;
-      padding: 0;
+      padding: 24px;
+      direction: rtl;
+      text-align: right;
+      background: linear-gradient(180deg,#071024 0%,#071a2a 100%);
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
+    }
+    body.light-theme {
+      --bg: #f0f4f8;
+      --card: #ffffff;
+      --accent: #06b6d4;
+      --muted: #475569;
+      --text: #0f1724;
+      color-scheme: light;
+      background: linear-gradient(180deg,#ffffff 0%,#e2e8f0 100%);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      min-height: 100vh;
+      padding: 12px 20px;
+      background: var(--card);
+      border-bottom: 2px solid #333;
+      border-radius: 12px;
+      z-index: 1000;
+      box-sizing: border-box;
+    }
+    .site-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: var(--text);
+      margin: 0;
+    }
+    .header-icons {
+      font-size: 22px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .header-icons:hover {
+      transform: rotate(30deg);
+    }
+
+    #settingsSlide {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 300px;
+      max-width: 80vw;
+      height: 100%;
+      background: var(--card);
+      box-shadow: -4px 0 20px rgba(0,0,0,0.6);
+      z-index: 1002;
+      padding: 20px;
+      transform: translateX(100%);
+      opacity: 0;
+      transition: transform 0.5s ease, opacity 0.5s ease;
+      border-radius: 12px 0 0 12px;
+    }
+    #settingsSlide.active {
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    #toggleTheme {
+      background: linear-gradient(90deg, #06b6d4, #3b82f6);
+      border: none;
+      color: #d8d1d1;
+      padding: 10px 16px;
+      border-radius: 25px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    #toggleTheme:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+      background: linear-gradient(90deg, #3b82f6, #06b6d4);
+      color: #fff;
+    }
+    #toggleTheme:active {
+      transform: scale(0.95);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
     }
 
     .quiz-container {
-      background-color: white;
+      background-color: var(--card);
       padding: 30px;
       border-radius: 15px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      width: 90%;
-      max-width: 600px;
+      margin-top: 20px;
+      transition: background 0.3s, color 0.3s;
     }
 
     h1 {
@@ -43,7 +137,7 @@
       padding: 10px;
       border: none;
       border-radius: 10px;
-      background-color: #1e293b;
+      background-color: #3b82f6;
       color: white;
       cursor: pointer;
       font-size: 16px;
@@ -51,7 +145,7 @@
     }
 
     .answers button:hover {
-      background-color: #334155;
+      background-color: #2563eb;
     }
 
     .results {
@@ -59,57 +153,112 @@
       font-size: 20px;
       margin-top: 20px;
     }
+#toggle-quiz {
+  background: linear-gradient(90deg, #06b6d4, #3b82f6);
+  border: none;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 25px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  margin-left: 10px;
+}
+
+#toggle-quiz:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+}
+
+#toggle-quiz:active {
+  transform: scale(0.95);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+}
+
   </style>
 </head>
 <body>
 
-  <div class="quiz-container">
+<div class="container">
+
+  <div class="header">
+    <h1 class="site-title">بنك الأسئلة - Pearson BTEC L3</h1>
+    <button id="toggle-quiz">التبديل لوضع الأسئلة</button>
+
+<script>
+  const button = document.getElementById('toggle-quiz');
+  button.addEventListener('click', () => {
+    window.location.href = 'index.html'; 
+  });
+</script>
+
+    <div class="header-icons" id="openSettings">⚙️</div>
+  </div>
+
+  <div class="quiz-container" id="quiz-container">
     <h1>وضع الكويز</h1>
-    <div id="quiz">
-      <!-- السؤال والإجابات ستضاف هنا بواسطة JavaScript -->
-    </div>
+    <div id="quiz"></div>
     <div class="results" id="results"></div>
   </div>
 
-  <script>
-    // قائمة الأسئلة (مثال)
-    const quizData = [
-      { q: "ما هي عاصمة الأردن؟", options: ["عمان", "إربد", "الزرقاء", "مادبا"], answer: "عمان" },
-      { q: "ما هو لغة البرمجة التي نستخدمها للويب؟", options: ["Python", "JavaScript", "C++", "Java"], answer: "JavaScript" },
-      { q: "ما هو الناتج من 2 + 2؟", options: ["3", "4", "5", "6"], answer: "4" }
-    ];
+  <div id="settingsSlide">
+    <button id="toggleTheme">تبديل الوضع</button>
+  </div>
 
-    let currentQuestion = 0;
-    let score = 0;
+</div>
 
-    const quizEl = document.getElementById('quiz');
-    const resultsEl = document.getElementById('results');
+<script>
+ 
+  const quizData = [
+    { q: "مصطلح (SSL)", options: ["Secure Sockets Layer", "Simple Secure Login", "Safe Server Link", "System Security Level"], answer: "Secure Sockets Layer" },
+    { q: "ما هو لغة البرمجة التي نستخدمها للويب؟", options: ["Python", "JavaScript", "C++", "Java"], answer: "JavaScript" },
+    { q: "ما هو الناتج من 2 + 2؟", options: ["3", "4", "5", "6"], answer: "4" }
+  ];
 
-    function showQuestion() {
-      if (currentQuestion >= quizData.length) {
-        // عرض النتائج
-        quizEl.innerHTML = '';
-        resultsEl.innerHTML = `لقد حصلت على ${score} من ${quizData.length} نقاط!`;
-        return;
-      }
+  let currentQuestion = 0;
+  let score = 0;
+  const quizEl = document.getElementById('quiz');
+  const resultsEl = document.getElementById('results');
 
-      const q = quizData[currentQuestion];
-      quizEl.innerHTML = `
-        <div class="question">${q.q}</div>
-        <div class="answers">
-          ${q.options.map(opt => `<button onclick="selectAnswer('${opt}')">${opt}</button>`).join('')}
-        </div>
-      `;
+  function showQuestion() {
+    if (currentQuestion >= quizData.length) {
+      quizEl.innerHTML = '';
+      resultsEl.innerHTML = `لقد حصلت على ${score} من ${quizData.length} نقاط!`;
+      return;
     }
+    const q = quizData[currentQuestion];
+    quizEl.innerHTML = `
+      <div class="question">${q.q}</div>
+      <div class="answers">
+        ${q.options.map(opt => `<button onclick="selectAnswer('${opt}')">${opt}</button>`).join('')}
+      </div>
+    `;
+  }
 
-    function selectAnswer(selected) {
-      if (selected === quizData[currentQuestion].answer) score++;
-      currentQuestion++;
-      showQuestion();
-    }
-
+  function selectAnswer(selected) {
+    if (selected === quizData[currentQuestion].answer) score++;
+    currentQuestion++;
     showQuestion();
-  </script>
+  }
+
+  showQuestion();
+
+  
+  const settingsSlide = document.getElementById('settingsSlide');
+  const openSettingsBtn = document.getElementById('openSettings');
+  openSettingsBtn.addEventListener('click', () => {
+    settingsSlide.classList.toggle('active');
+  });
+
+ 
+  const toggleThemeBtn = document.getElementById('toggleTheme');
+  toggleThemeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('light-theme');
+  });
+
+</script>
 
 </body>
 </html>
