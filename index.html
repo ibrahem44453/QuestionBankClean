@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>بنك أسئلة - كتاب تكنولوجيا المعلومات (Pearson BTEC L3)</title>
+  <style>
+a {
+  text-decoration: none;
+  color: #e6eef6;
+  border-color: #9fe3ff; 
+  font-size: 15px; 
+  transition: transform 0.3s, text-shadow 0.3s, font-size 0.3s,font-weight 0.3s;
+}
+a:hover { 
+  text-shadow: 0 0 1px #ffffff; 
+  transform: scale(1.1);         
+  font-size: 16px; 
+  font-weight: bold;
+}
+:root{--bg:#0f1724;--card:#0b1220;--accent:#06b6d4;--muted:#94a3b8;color-scheme:dark}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Naskh Arabic",Arial; background:linear-gradient(180deg,#071024 0%,#071a2a 100%);color:#e6eef6;margin:0;padding:24px;direction:rtl;text-align:right}
+.container{max-width:1100px;margin:0 auto}
+h1{font-size:22px;margin:0}
+p.lead{margin:6px 0 18px;color:var(--muted)}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+input[type=search]{flex:1;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);color:inherit;direction:ltr;text-align:left}
+button{padding:10px;border-radius:10px;border:none;background:var(--card);color:inherit;cursor:pointer}
+.grid{display:grid;grid-template-columns:1fr;gap:18px} /* عمود واحد لتسهيل ترتيب الفئات فوق */
+.card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.12));padding:16px;border-radius:12px;box-shadow:0 6px 20px rgba(2,6,23,0.6)}
+ul.questions, ul.categories{list-style:none;padding:0;margin:0}
+li.q, li.category{padding:10px;border-radius:8px;margin-bottom:8px;border:1px solid rgba(255,255,255,0.03)}
+.meta{font-size:12px;color:var(--muted);margin-top:6px}
+.extra{font-size:12px;color:#9fe3ff;margin-top:4px}
+.more{display:none;margin-top:6px;color:#9fe3ff;} /* اللون للوضع الداكن */
+body.light-theme .more{color: rgba(0,0,0,0.6);} /* الوضع الفاتح */
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.tag{padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.02);font-size:12px}
+.help{font-size:13px;color:var(--muted)}
+.highlight{background:#ffe36b;color:#000;padding:0 2px;border-radius:2px}
+.toggle-btn{cursor:pointer;display:inline-block;margin-left:8px;color:var(--accent)}
+footer{margin-top:18px;color:var(--muted);font-size:13px}
+
+.category-btn{margin-bottom:8px;width:100%;text-align:right;padding:8px;border-radius:8px;border:none;background:var(--card);color:inherit;cursor:pointer}
+.category-btn.active{background:var(--accent);color:#000}
+
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;           
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: var(--card);
+  border-bottom: 2px solid #333;
+  border-radius: 12px;   
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+.site-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--text);
+  margin: 0;
+}
+.header-icons {
+  font-size: 22px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.header-icons:hover {
+  transform: rotate(30deg);
+}
+
+#settingsSlide {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  max-width: 80vw;       
+  height: 100%;
+  background: rgba(11, 18, 32, 0.95); 
+  box-shadow: -4px 0 20px rgba(0,0,0,0.6);
+  z-index: 1002;
+  padding: 20px;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  border-radius: 12px 0 0 12px; 
+}
+
+#toggleTheme {
+  background: linear-gradient(90deg, #06b6d4, #3b82f6);
+  border: none;
+  color: #d8d1d1;
+  padding: 10px 16px;
+  border-radius: 25px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+#toggleTheme:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+  color: #fff;
+}
+#toggleTheme:active {
+  transform: scale(0.95);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+}
+
+:root {
+  --bg: #0f1724;
+  --card: #0b1220;
+  --accent: #06b6d4;
+  --muted: #94a3b8;
+  --text: #e6eef6;
+  color-scheme: dark;
+}
+body {
+  background: linear-gradient(180deg,#071024 0%,#071a2a 100%);
+  color: var(--text);
+}
+body.light-theme {
+  --bg: #f0f4f8;
+  --card: #ffffff;
+  --accent: #06b6d4;
+  --muted: #475569;
+  --text: #0f1724;
+  color-scheme: light;
+  background: linear-gradient(180deg,#ffffff 0%,#e2e8f0 100%);
+}
+body.light-theme .card {
+  background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(255,255,255,0.12));
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- الهيدر الجديد -->
+    <div class="header">
+      <h1 class="site-title">بنك أسئلة - Pearson BTEC L3</h1>
+      <div class="header-icons" id="openSettings">⚙️</div>
+    </div>
+
+    <header>
+      <div>
+        <h1> Information bank-(Pearson BTEC Level 3)</h1>
+        <p class="lead">مصطلحات شاملة لجميع الوحد</p>
+      </div>
+    </header>
+
+    <div class="controls">
+      <input id="search" type="search" placeholder="search..." />
+      <button id="export">طباعة / حفظ PDF</button>
+    </div>
+
+    <!-- ترتيب جديد: الفئات فوق العنوان -->
+    <div class="grid">
+      <aside class="card">
+        <h3>الفئات</h3>
+        <div id="categories"></div>
+      </aside>
+
+      <main class="card">
+        <h2 id="categoryTitle">الأمن السيبراني وإدارة الحوادث</h2>
+        <ul id="qList" class="questions"></ul>
+      </main>
+    </div>
+
+    <footer>
+      <p><a href="">المصدر</a></p>
+    </footer>
+  </div>
+<button class="aiBtn">اسأل AI</button>
+<div class="aiAnswer"></div>
+
+  <!-- سلايد الإعدادات -->
+  <div id="settingsSlide">
+    <button id="toggleTheme" style="margin-top:20px;">تبديل الوضع</button>
+  </div>
+
+  <script>
+    const ALL_ITEMS = [
+    {id:44,cat:'ادارت مشاريع تكنلوجيا المعلومات',q:'',page:[133],more:''},
+      {id:1,cat:'الامن السبراني و ادارت الحوادث',q:'تهديدات الامن السيبراني',page:[132,133],more:'1:الموظفون (الفساد الداخلي)<br>2: الوصول الغير مصرح به <br>3: الأجرائات الامنيت الضعيفة <br>4: عدم التدريب الكافي للموظفين<br>5: زيارت مواقع غير موثوقة<br>6:زوار المؤسسة/الشركة'},
+      {id:2,cat:'الامن السبراني و ادارت الحوادث',q:'البرامج الخبيثة',page:[133,134],more:'1:برامج التجسس<br>2:البرامج الدعائية<br>3:برامج الفدية<br>4:الفيروسات<br>5:القرصنة<br>6:التخريب'},
+      {id:3,cat:'الامن السبراني و ادارت الحوادث',q:'(Social Engineering Threats) تهديدات الهندسة الاجتماعية',page:[135],more:''},
+      {id:4,cat:'الامن السبراني و ادارت الحوادث',q:'تأثير التهديدات',page:[135,136],more:'1:الخسارت التشغيلية<br>2:الخسارة المالية<br>3:خسارة السمعة<br>4:خسارت الملكية الفكرية'},
+      {id:5,cat:'الامن السبراني و ادارت الحوادث',q:'مستوايت الأثير',page:[136],more:''},
+      {id:6,cat:'الامن السبراني و ادارت الحوادث',q:'تهديدات الأمن السيبراني عبر الزمن',page:[136],more:''},
+      {id:7,cat:'الامن السبراني و ادارت الحوادث',q:'ثغرات النظام',page:[137],more:''},
+      {id:8,cat:'الامن السبراني و ادارت الحوادث',q:'ثغرات الشبكة',page:[137],more:''},
+      {id:9,cat:'الامن السبراني و ادارت الحوادث',q:'الثغرات التنظيمية',page:[137],more:'1:اذونات الملفات<br>2:الامتيازات<br>3:سياسة كلمات المرور'},
+      {id:10,cat:'الامن السبراني و ادارت الحوادث',q:'ثغرات البرامج',page:[137,138],more:'1:حقن لغة الاستعلام الهيكلية (SQL)'},
+      {id:11,cat:'الامن السبراني و ادارت الحوادث',q:'الثغرات الامنية الغير معرفة',page:[138],more:''},
+      {id:12,cat:'الامن السبراني و ادارت الحوادث',q:'ثغراتنظام التشغيل',page:[138],more:''},
+      {id:13,cat:'الامن السبراني و ادارت الحوادث',q:'ثغرات الاجهزت المحمولة',page:[138],more:''},
+      {id:14,cat:'الامن السبراني و ادارت الحوادث',q:'الثغرات الامنية المادية',page:[139],more:''},
+      {id:15,cat:'الامن السبراني و ادارت الحوادث',q:'ثغرات عمليات المستخدمين',page:[139],more:''},
+      {id:16,cat:'الامن السبراني و ادارت الحوادث',q:'ثغرات التقنيا الجيدية',page:[139],more:'1:الحوسة السحابية <br>2:انتر نت الاشياء (IoT)'},
+      {id:17,cat:'الامن السبراني و ادارت الحوادث',q:'نواقل الهجوم',page:[140],more:''},
+      {id:18,cat:'الامن السبراني و ادارت الحوادث',q:'حماية البيانات',page:[140],more:''},
+      {id:19,cat:'الامن السبراني و ادارت الحوادث',q:'اساءة استخدام الحاسوب',page:[140],more:''},
+      {id:20,cat:'الامن السبراني و ادارت الحوادث',q:'تشريعات الاتصالات',page:[140],more:''},
+      {id:21,cat:'الامن السبراني و ادارت الحوادث',q:'تشريعات مكافحة الاحتيال',page:[141],more:''},
+      {id:22,cat:'الامن السبراني و ادارت الحوادث',q:'الصحة و السلامة',page:[141],more:''},
+      {id:23,cat:'الامن السبراني و ادارت الحوادث',q:' امان المواقع',page:[141],more:'1:القياسات الحيوية <br>2:الدوائر التلفزيونية المغلقة (CCTV)<br>3: افراد الامن <br>4: اجهزت الانذار'},
+      {id:24,cat:'الامن السبراني و ادارت الحوادث',q:'برامج مكافحة الفيروسات',page:[142],more:''},
+      {id:25,cat:'الامن السبراني و ادارت الحوادث',q:'تقنيات برامج الفيروسات',page:[142],more:'1:توقيعات الفيروسات <br>2:الموجهات<br>3:التهديدات المحددة'},
+      {id:26,cat:'الامن السبراني و ادارت الحوادث',q:'جدران حمايت البرامج و الاجهزة',page:[142,143],more:'1:تصفية الحزم و فحصها<br>2:الوعي بطبقة التطبيقات<br>3:قواعد الدخول و الخروج<br>4:عنوان الشبكة'},
+      {id:27,cat:'الامن السبراني و ادارت الحوادث',q:'مصادقة المستخدم',page:[143,144],more:'1:اجراءات تسجيل الدخول المستخدمة <br>2: كلمات المرور الوقية<br>3:كلمات المرور النصية و الرسومية<br>4:المصادقة البومترية<br>5:التحقق بخطوتين<br>5: رموز الامان <br>6:المصادقة القائمت على المعرفة<br>7: مصادقة كيربيروس<br>8:المصادقة المستندة الى الشهادات'},
+      {id:28,cat:'الامن السبراني و ادارت الحوادث',q:'عناصر التحكم في الوصول',page:[144],more:''},
+      {id:29,cat:'الامن السبراني و ادارت الحوادث',q:'الحوسبة الموثقة',page:[144],more:''},
+      {id:30,cat:'الامن السبراني و ادارت الحوادث',q:'الغرض من التشفير',page:[145],more:''},
+      {id:31,cat:'الامن السبراني و ادارت الحوادث',q:'تخزين كلمات المرور',page:[145],more:''},
+      {id:32,cat:'الامن السبراني و ادارت الحوادث',q:'ادارت الحقوق الرقمية (DRM)',page:[145],more:''},
+      {id:33,cat:'الامن السبراني و ادارت الحوادث',q:'تشفير الملفات و البيانات و الاقراص',page:[145],more:'1: EFS<br>2:الهجوم غير المتصل بالأنتر نت<br>3:Bitlocker<br>4:TRM<br>5:USB'},
+      {id:34,cat:'الامن السبراني و ادارت الحوادث',q:'تشفير الاتصالات',page:[145,146],more:'1: المضمنة في الاجهزة (GSM)<br>2:الموجهة اونيون(تور/tor)'},
+      {id:35,cat:'الامن السبراني و ادارت الحوادث',q:'الشبكات الافتراضية(VPN)',page:[146],more:'1:(lan,wan)'},
+      {id:36,cat:'الامن السبراني و ادارت الحوادث',q:'بروتكول نقل النص التشعبيالامن(HTTPS)',page:[146],more:'http<br>المفتاح العام/الخاص'},
+      {id:37,cat:'الامن السبراني و ادارت الحوادث',q:'المفتاحالعام/الخاص',page:[146],more:'https'},
+      {id:38,cat:'الامن السبراني و ادارت الحوادث',q:'حمايت الشبكات الملية',page:[148],more:'(WLAN,Wi-Fi)'},
+      {id:39,cat:'الامن السبراني و ادارت الحوادث',q:'اخفاء معرف مجوعة الشبكة',page:[148],more:'(WLAN ,Wi-Fi)'},
+      {id:40,cat:'الامن السبراني و ادارت الحوادث',q:'التشفير الاسلكي',page:[148,149],more:'1:WEP<br>2: WPA<br>3: WPA2<br>4: WPS <br>(pin , AES)'},
+      {id:41,cat:'الامن السبراني و ادارت الحوادث',q:'',page:[133],more:''},
+      {id:42,cat:'الامن السبراني و ادارت الحوادث',q:'',page:[133],more:''},
+      {id:43,cat:'الامن السبراني و ادارت الحوادث',q:'',page:[133],more:''},
+      {id:44,cat:'الامن السبراني و ادارت الحوادث',q:'',page:[133],more:''},
+      {id:44,cat:' مقدة الى الذكاء الاصطناعي(AL)',q:'',page:[133],more:''},
+      {id:1000,cat:'المصطلحات',q:'واجهة سطر األوامر (CLI)',page:[287],more:'نمط قديم لواجهة المستخدم القائمة على النص والتي ما تزال قيد االستخدام. يتفاعل المستخدمون مع الحاسوب عبر األوامر التي يتم إدخالها من لوحة المفاتيح. تشمل األمثلة موجه أوامر Microsoft أو محطة طرفية لنظام Linux.'},
+      {id:1001,cat:'المصطلحات',q:'برنامج التحويل',page:[287],more:' برنامج خاص يترجم كود البرنامج المكتوب بلغة عالية المستوى إلى تعليمات ثنائية يمكن لوحدة المعالجة المركزية معالجتها.'},
+      {id:1002,cat:'المصطلحات',q:'لنموذج المفاهيمي',page:[287],more:'طريقة لتنظيم األفكار والمفاهيم بطريقة منطقية. غالبًا ما تمثل النماذج المفاهيمية األفكار المعنية بطريقة بصرية توضح العالقات بينها بطريقة بسيطة يسهل فهمها.'},
+      {id:1003,cat:'المصطلحات',q:'القيود',page:[287],more:'لقيود المفروضة على شيء ما. تشمل القيود في سياق البرمجة ميزات لغات البرمجة، والمهارات التقنية للمطور، والمنصات المدعومة من قبل لغة البرمجة وما إلى ذلك.'},
+      {id:1004,cat:'المصطلحات',q:'السياق',page:[287],more:'اإلعداد أو الظروف المحيطة بشيء ما. في تصميم حلول برمجية، سيتضمن السياق تفاصيل مثل الخلفية التاريخية للمشكلة.'},
+      {id:1005,cat:'المصطلحات',q:'الصيانة التصحيحية',page:[287],more:'إصالح خطأ أو خلل تم تحديده.'},
+      {id:1006,cat:'المصطلحات',q:'تصحيح الاخطاء',page:[287],more:'عملية تحديد خطأ (أو خلل) في كود البرنامج وإزالته.'},
+      {id:1008,cat:'المصطلحات',q:'FIFO',page:[287],more:'هذا يعني "أول من يدخل، أول من يخرج." هذا يعني أن أول عنصر من البيانات المضافة هو أي ًضا أول عنصر من البيانات التي يمكن إزالتها'},
+      {id:1009,cat:'المصطلحات',q:'الخط',page:[287],more:'كلمة تستخدم لوصف الملف الرقمي الذي يحتوي على نوع الخط. على سبيل المثال، ttf .arial هو ملف خط .TrueType يستخدم العديد من األشخاص مصطلحي ›نوع الكتابة‹ و‹الخط‹ بالتبادل'},
+      {id:1010,cat:'المصطلحات',q:'جميع البيانات المهمة',page:[287],more:'عملية تلقائية تحاول استعادة ذاكرة الوصول العشوائي المحجوزة بواسطة برنامج لتخزين البيانات، على سبيل المثال معرف (متغير أو كائن) لم تعد هناك حاجة إليه.'},
+      {id:1011,cat:'المصطلحات',q:'واجهة المستخدم (GUI)',page:[287],more:'واجهة مستخدم حديثة تتكون من النوافذ والرموز التي يتم التحكم فيها عن طريق الفأرة والمؤشر. تشمل'},
+      {id:1012,cat:'المصطلحات',q:'الاثار',page:[287],more:'الاثر المحتملة لشيء ما'},
+      {id:1013,cat:'المصطلحات',q:'المصطلحات',page:[287],more:'الكلمات أو العبارات التي تستخدمها مجموعة معينة فقط والتي يجد األشخاص خارج تلك المجموعة صعوبة في فهمها.'},
+      {id:1014,cat:'المصطلحات',q:'LIFO',page:[287],more:'يعني هذا "آخر من يدخل، أول من يخرج" ويصف كيفية معالجة البيانات في بعض هياكل البيانات. هذا يعني أن العنصر األخير من البيانات الذي تم الضغط عليه هو أي ًضا العنصر األول من البيانات الذي قد يتم سحبه مرة أخرى.'},
+      {id:1015,cat:'المصطلحات',q:'اللغات ذات المستوى المنخفض والمستوى المرتفع',page:[287],more:'في البرمجة، يشير المصطلحان "منخفض" و"مرتفع" إلى موضع اللغة في إطار فهمها بواسطة الحاسوب (على سبيل المثال، ثنائية المستوى منخفضة المستوى) وفهمها من قبل شخص (على سبيل المثال، اللغات الطبيعية مثل اإلنجليزية والعربية والتايالندية والهولندية عالية المستوى.)'},
+      {id:1016,cat:'المصطلحات',q:'المقياس',page:[287],more:'شكل متفق عليه للقياس يتيح المقارنة والتقييم.'},
+      {id:1017,cat:'المصطلحات',q:'قسمة الباقي',page:[287],more:'إجراء عملية القسمة وإرجاع بداًل من حساب الناتج العشري أو الباقي الكسري.'},
+      {id:1018,cat:'المصطلحات',q:'الصيانت التحسينية',page:[287],more:'إجراء تحسين على برنامج يعزز من أدائه.'},
+      {id:1019,cat:'المصطلحات',q:'منقول',page:[287],more:'مكتوب باستخدام بنية حاسوبية واحدة، ولكن تم تجميعه لالستخدام على جهاز آخر. يُعرف هذا أي ًضا باسم التجميع المتقاطع.'},
+      {id:1020,cat:'المصطلحات',q:'النظام الثنائي',page:[287],more:'استخدامها لتمثيل قيم 0 و1 الثنائية. "تشغيل" و"إيقاف" يمكن دوائر الحاسوب على حاالت 4 + 0 × 2 + 1 × .)1 تحتوي ‹5›في النظام الثنائيهو 101 1( × "األساس .)"2 على سبيل المثال، األرقام (المعروف أي ًضا باسم يستخدم فقط الرقمين 0 و1 لتكوين'},
+      {id:1021,cat:'المصطلحات',q:'وحدة المعالجة المركزية ARM',page:[287],more:'مجموعة متنوعة من األجهزة تُ في المتقدمة، والتي ستخدم سابق باسم آالت RISC ً المعروفة ا الطاقة التي أنشأتها شركة ARM، المركزية ذات الكفاءة في استهالك – عائلة من وحدات المعالجة'},
+      {id:1023,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1024,cat:'المصطلحات',q:'عنوان بروتوكول اإلنترنت (IP)',page:[287],more:'عنوان رقمي يعرف جهاز الحاسوب تعريف فريدا على إحدى الشبكات.'},
+{id:1025,cat:'المصطلحات',q:'االتصال قريب المدى (NFC)',page:[287],more:'طريقة اتصال السلكية تستخدمها خدمات مثل آبل باي ومدفوعات البطاقات الالتالمسية، إذ يجب وضع جهازين (مثل بطاقة الخصم وقارئ البطاقات) بالقرب من بعضهما (في نطاق بضعة سنتيمترات) ليتمكنا بعد ذلك من نقل كميات صغيرة من البيانات.'},
+{id:1026,cat:'المصطلحات',q:'هجوم غير متصل باإلنترنت',page:[287],more:'عندما يسرق مهاجم جهاز حاسوب أو قرص صلب ويقوم إما بتوصيل القرص الصلب بجهاز حاسوب مختلف وإما بتشغيل جهاز الحاسوب من نظام تشغيل مختلف (مثل Linux على شريحة ذاكرة )USB، وتتخطى هذه األساليب الميزات األمنية لنظام Windows العادية.'},
+{id:1027,cat:'المصطلحات',q:'لغة االستعالم المهيكلة (SQL)',page:[287],more:'لغة األمر المستخدمة الستخراج البيانات من قاعدة بيانات.'},
+{id:1028,cat:'المصطلحات',q:'البروتوكول النفقي',page:[287],more:'روتوكول شبكة ينشئ شبكة خاصة داخل اإلنترنت من خالل تغليف البيانات المراد إرسالها وتشفيرها، قبل إدراجها في حزم البيانات القياسية. ويقوم البروتوكول أي ًضا بالمصادقة على مستخدمي االتصال والتفاوض على مفاتيح التشفير التي ستستخدم لتشفير البيانات المرسلة وفك تشفيرها.'},
+{id:1029,cat:'المصطلحات',q:'الوصول غير المصرح به',page:[287],more:'لوصول إلى أنظمة الحاسوب والبيانات المخزنة فيها من جانب األشخاص الذين ال يُسمح لهم بالوصول إلى تلك األنظمة والبيانات.'},
+{id:1030,cat:'المصطلحات',q:'هجوم القوة الغاشمة',page:[287],more:'هجوم يج ِّرب فيه المهاجم جميع كلمات المرور أو أرقام التعريف الشخصية الممكنة حتى يعثر على الرقم الصحيح، وكلما كانت كلمة المرور أو رقم التعريف الشخصي أطول، زادت المدة التي قد يستغرقها هجوم القوة الغاشمة.'},
+{id:1031,cat:'المصطلحات',q:'هيئة الشهادات',page:[287],more:'هيئة الشهادات )CA )هي مؤسسة تتولى إصدار الشهادات الرقمية'},
+{id:1032,cat:'المصطلحات',q:'المواقع اإللكترونية غير الموثوقة',page:[287],more:''},
+{id:1033,cat:'المصطلحات',q:'الشهادة الرقمية',page:[287],more:'يجب أن يتقدم الموقع اإللكتروني اآلمن (الذي يستخدم بروتوكول )HTTPS بطلب الحصول على شهادة رقمية من سلطة شهادات االعتماد إلثبات أنه موقع حقيقي'},
+{id:1034,cat:'المصطلحات',q:'الايثرنت',page:[287],more:'مجموعة من معايير التكنولوجيا التي تطورت في الثمانينيات والتي تحدد طريقة ألجهزة الحاسوب للتحدث مع بعضها بع ًضا في الشبكات السلكية والالسلكية.'},
+{id:1035,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1036,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1037,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1038,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1039,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1040,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1041,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1042,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1043,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1044,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1045,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1046,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1047,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1048,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1049,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1050,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1051,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1052,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1053,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1054,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1055,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1056,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1057,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1058,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1059,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1060,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1061,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1062,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1063,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1064,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1065,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1066,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1067,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1068,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1069,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1070,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1071,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1072,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1073,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1074,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1075,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1076,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1077,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1078,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1079,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1080,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1081,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1082,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1083,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1084,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1085,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1086,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1087,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1088,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1089,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1090,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1091,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1092,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1093,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1094,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1095,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1096,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1097,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1098,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1099,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1100,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1101,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1102,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1103,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1104,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1105,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1106,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1107,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1108,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1109,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1110,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1111,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1112,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1113,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1114,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1115,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1116,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1117,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1118,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1119,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1120,cat:'المصطلحات',q:'',page:[287],more:''}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ];
+
+    const qList = document.getElementById('qList');
+    const search = document.getElementById('search');
+    const categoriesDiv = document.getElementById('categories');
+    const categoryTitle = document.getElementById('categoryTitle');
+
+    const CATEGORIES = [...new Set(ALL_ITEMS.map(i=>i.cat))];
+
+    // إنشاء أزرار الفئات
+    CATEGORIES.forEach(cat=>{
+      const btn = document.createElement('button');
+      btn.className='category-btn';
+      btn.innerText = cat;
+      btn.addEventListener('click', ()=>{
+        document.querySelectorAll('.category-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        categoryTitle.innerText = cat;
+        render(ALL_ITEMS.filter(i=>i.cat===cat));
+      });
+      categoriesDiv.appendChild(btn);
+    });
+
+    function highlightText(text, term){
+      if(!term) return text;
+      const re = new RegExp(`(${term})`, 'gi');
+      return text.replace(re, '<span class="highlight">$1</span>');
+    }
+
+    function render(list){
+      qList.innerHTML = '';
+      if(list.length===0){ qList.innerHTML = '<li class="q">لا توجد نتائج.</li>'; return }
+
+      list.forEach(item=>{
+        const li = document.createElement('li'); 
+        li.className='q';
+
+        const pages = Array.isArray(item.page) ? item.page.join(', ') : item.page;
+        let html = `${highlightText(item.q, search.value)} <div class="meta">صفحة ${pages}</div>`;
+        html += `<div class="more">${item.more}</div>`;
+
+        const toggle = document.createElement('span');
+        toggle.innerHTML = '▼';
+        toggle.className='toggle-btn';
+        toggle.addEventListener('click', ()=>{
+          const more = li.querySelector('.more');
+          more.style.display = more.style.display==='none'?'block':'none';
+        });
+
+        li.innerHTML = html;
+        li.appendChild(toggle);
+        qList.appendChild(li);
+      });
+    }
+
+    render(ALL_ITEMS);
+
+    search.addEventListener('input', ()=>{
+      const term = search.value.trim();
+      const filtered = ALL_ITEMS.filter(i=>i.q.includes(term) || i.more.includes(term) || i.cat.includes(term));
+      render(filtered);
+    });
+
+    // السلايد والإعدادات
+    const openSettings = document.getElementById('openSettings');
+    const settingsSlide = document.getElementById('settingsSlide');
+
+    openSettings.addEventListener('click', ()=>{
+        settingsSlide.style.transform = 'translateX(0)';
+        settingsSlide.style.opacity = '1';
+    });
+
+    document.addEventListener('click', (e)=>{
+      if(!settingsSlide.contains(e.target) && e.target !== openSettings){
+        settingsSlide.style.transform = 'translateX(100%)';
+        settingsSlide.style.opacity = '0';
+      }
+    });
+
+    const toggleThemeBtn = document.getElementById('toggleTheme');
+    toggleThemeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('light-theme');
+    });
+  </script>
+</body>
+</html>
