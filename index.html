@@ -26,7 +26,16 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Naskh Arabic",Ari
 h1{font-size:22px;margin:0}
 p.lead{margin:6px 0 18px;color:var(--muted)}
 .controls{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
-input[type=search]{flex:1;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);color:inherit;direction:ltr;text-align:left}
+input[type=search] {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 2px solid #00000071; /* حد أسود 2px */
+  background: rgba(255, 255, 255, 0.02);
+  color: inherit;
+  direction: ltr;
+  text-align: left;
+}
 button{padding:10px;border-radius:10px;border:none;background:var(--card);color:inherit;cursor:pointer}
 .grid{display:grid;grid-template-columns:1fr;gap:18px} /* عمود واحد لتسهيل ترتيب الفئات فوق */
 .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.12));padding:16px;border-radius:12px;box-shadow:0 6px 20px rgba(2,6,23,0.6)}
@@ -141,18 +150,20 @@ body.light-theme .card {
   background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(255,255,255,0.12));
 }
 #toggle-quiz {
-  background-color: #1e293b00; /* نفس لون الأزرار في الموقع */
-  color: rgb(#0000FF);
-  border: none;
-  padding: 10px 20px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background 0.3s;
+     background-color: #53555756;
+      border: none;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 25px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
 #toggle-quiz:hover {
-  background-color: #334155;
+      transform: scale(1.08);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
 }
 
 #quiz-container button {
@@ -245,22 +256,16 @@ body.light-theme .card {
   </style>
 </head>
 <body>
-   
-
-  <div class="container">
-    
-  
+    <div class="container">
     <div class="header">
       <h1 class="site-title">بنك أسئلة - Pearson BTEC L3</h1>
-<button id="toggle-quiz">التبديل لوضع الأسئلة</button>
-
-<script>
-  const button = document.getElementById('toggle-quiz');
-  button.addEventListener('click', () => {
-    window.location.href = 'quiz_page.html'; 
-  });
-</script>
-
+      <button id="toggle-quiz">التبديل لوضع الأسئلة</button>
+      <script>
+        const button = document.getElementById('toggle-quiz');
+        button.addEventListener('click', () => {
+          window.location.href = 'quiz_page.html'; 
+        });
+      </script>
       <div class="header-icons" id="openSettings">⚙️</div>
     </div>
 
@@ -294,18 +299,13 @@ body.light-theme .card {
     </footer>
   </div>
 
-
   <!-- سلايد الإعدادات -->
   <div id="settingsSlide">
     <button id="toggleTheme" style="margin-top:20px;">تبديل الوضع</button>
-   
   </div>
 
-
   <script>
-    const ALL_ITEMS = [
-        
-    {id:44,cat:'ادارت مشاريع تكنلوجيا المعلومات',q:'',page:[133],more:''},
+const ALL_ITEMS = [    {id:44,cat:'ادارت مشاريع تكنلوجيا المعلومات',q:'',page:[133],more:''},
       {id:1,cat:'الامن السبراني و ادارت الحوادث',q:'تهديدات الامن السيبراني',page:[132,133],more:'1:الموظفون (الفساد الداخلي)<br>2: الوصول الغير مصرح به <br>3: الأجرائات الامنيت الضعيفة <br>4: عدم التدريب الكافي للموظفين<br>5: زيارت مواقع غير موثوقة<br>6:زوار المؤسسة/الشركة'},
       {id:2,cat:'الامن السبراني و ادارت الحوادث',q:'البرامج الخبيثة',page:[133,134],more:'1:برامج التجسس<br>2:البرامج الدعائية<br>3:برامج الفدية<br>4:الفيروسات<br>5:القرصنة<br>6:التخريب'},
       {id:3,cat:'الامن السبراني و ادارت الحوادث',q:'(Social Engineering Threats) تهديدات الهندسة الاجتماعية',page:[135],more:''},
@@ -469,161 +469,114 @@ body.light-theme .card {
 {id:1117,cat:'المصطلحات',q:'',page:[287],more:''},
 {id:1118,cat:'المصطلحات',q:'',page:[287],more:''},
 {id:1119,cat:'المصطلحات',q:'',page:[287],more:''},
-{id:1120,cat:'المصطلحات',q:'',page:[287],more:''}
-    ];
+{id:1120,cat:'المصطلحات',q:'',page:[287],more:''} ];
 
-    const qList = document.getElementById('qList');
-    const search = document.getElementById('search');
-    const categoriesDiv = document.getElementById('categories');
-    const categoryTitle = document.getElementById('categoryTitle');
+// عناصر DOM
+const qList = document.getElementById('qList');
+const search = document.getElementById('search');
+const categoriesDiv = document.getElementById('categories');
+const categoryTitle = document.getElementById('categoryTitle');
 
-    const CATEGORIES = [...new Set(ALL_ITEMS.map(i=>i.cat))];
-
-    // إنشاء أزرار الفئات
-    CATEGORIES.forEach(cat=>{
-      const btn = document.createElement('button');
-      btn.className='category-btn';
-      btn.innerText = cat;
-      btn.addEventListener('click', ()=>{
-        document.querySelectorAll('.category-btn').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
-        categoryTitle.innerText = cat;
-        render(ALL_ITEMS.filter(i=>i.cat===cat));
-      });
-      categoriesDiv.appendChild(btn);
-    });
-
-    function highlightText(text, term){
-      if(!term) return text;
-      const re = new RegExp(`(${term})`, 'gi');
-      return text.replace(re, '<span class="highlight">$1</span>');
-    }
-
-    function render(list){
-      qList.innerHTML = '';
-      if(list.length===0){ qList.innerHTML = '<li class="q">لا توجد نتائج.</li>'; return }
-
-      list.forEach(item=>{
-        const li = document.createElement('li'); 
-        li.className='q';
-
-        const pages = Array.isArray(item.page) ? item.page.join(', ') : item.page;
-        let html = `${highlightText(item.q, search.value)} <div class="meta">صفحة ${pages}</div>`;
-        html += `<div class="more">${item.more}</div>`;
-
-        const toggle = document.createElement('span');
-        toggle.innerHTML = '▼';
-        toggle.className='toggle-btn';
-        toggle.addEventListener('click', ()=>{
-          const more = li.querySelector('.more');
-          more.style.display = more.style.display==='none'?'block':'none';
-        });
-
-        li.innerHTML = html;
-        li.appendChild(toggle);
-        qList.appendChild(li);
-      });
-    }
-
-render(ALL_ITEMS); // عرض كل العناصر أولاً
-
-search.addEventListener('input', () => {
-    const term = search.value.trim().toLowerCase();
-    const filtered = ALL_ITEMS.filter(i => 
-        i.q?.toLowerCase().includes(term) || 
-        i.more?.toLowerCase().includes(term) || 
-        i.cat?.toLowerCase().includes(term)
-    );
-    
-    render(filtered); // عرض العناصر بعد الفلترة
-});
-
-    // السلايد والإعدادات
-    const openSettings = document.getElementById('openSettings');
-    const settingsSlide = document.getElementById('settingsSlide');
-
-    openSettings.addEventListener('click', ()=>{
-        settingsSlide.style.transform = 'translateX(0)';
-        settingsSlide.style.opacity = '1';
-    });
-
-    document.addEventListener('click', (e)=>{
-      if(!settingsSlide.contains(e.target) && e.target !== openSettings){
-        settingsSlide.style.transform = 'translateX(100%)';
-        settingsSlide.style.opacity = '0';
-      }
-    });
-
-    const toggleThemeBtn = document.getElementById('toggleTheme');
-    toggleThemeBtn.addEventListener('click', () => {
-      document.body.classList.toggle('light-theme');
-    });
-    // جلب الملاحظات من localStorage أو إنشاء كائن فارغ لكل فئة
-let notes = JSON.parse(localStorage.getItem('notesByCategory')) || {};
-
-// إضافة ملاحظة جديدة للفئة الحالية
-function addNote() {
-  const noteInput = document.getElementById('noteInput');
-  const note = noteInput.value.trim();
-  if (!note) return;
-
-  // الحصول على الفئة الحالية
-  const currentCategory = categoryTitle.innerText;
-
-  // إذا لم يكن هناك مصفوفة للفئة الحالية، أنشئها
-  if (!notes[currentCategory]) {
-    notes[currentCategory] = [];
-  }
-
-  notes[currentCategory].push(note);
-
-  // حفظ في localStorage
-  localStorage.setItem('notesByCategory', JSON.stringify(notes));
-
-  noteInput.value = '';
-  renderNotes();
-}
-
-// عرض الملاحظات للفئة الحالية فقط
-function renderNotes() {
-  const notesList = document.getElementById('notesList');
-  notesList.innerHTML = '';
-
-  const currentCategory = categoryTitle.innerText;
-  const currentNotes = notes[currentCategory] || [];
-
-  currentNotes.forEach((note, index) => {
-    const div = document.createElement('div');
-    div.textContent = note;
-
-    const delBtn = document.createElement('button');
-    delBtn.textContent = 'حذف';
-    delBtn.onclick = () => deleteNote(index);
-
-    div.appendChild(delBtn);
-    notesList.appendChild(div);
-  });
-}
-
-// حذف ملاحظة من الفئة الحالية
-function deleteNote(index) {
-  const currentCategory = categoryTitle.innerText;
-  notes[currentCategory].splice(index, 1);
-  localStorage.setItem('notesByCategory', JSON.stringify(notes));
-  renderNotes();
-}
-
-// إعادة عرض الملاحظات عند تغيير الفئة
-document.querySelectorAll('.category-btn').forEach(btn => {
+// استخراج الفئات
+const CATEGORIES = [...new Set(ALL_ITEMS.map(i => i.cat))];
+CATEGORIES.forEach(cat => {
+  const btn = document.createElement('button');
+  btn.className = 'category-btn';
+  btn.innerText = cat;
   btn.addEventListener('click', () => {
-    renderNotes(); // إعادة عرض الملاحظات للفئة الجديدة
+    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    categoryTitle.innerText = cat;
+    render(ALL_ITEMS.filter(i => i.cat === cat));
   });
+  categoriesDiv.appendChild(btn);
 });
 
-// عند فتح الصفحة لأول مرة
-renderNotes();
+// تمييز النص
+function highlightText(text, term){
+  if(!term) return text;
+  const re = new RegExp(`(${term})`, 'gi');
+  return text.replace(re, '<span class="highlight">$1</span>');
+}
 
-  </script>
-  
+// عرض الأسئلة
+function render(list){
+  qList.innerHTML = '';
+  if(list.length===0){ 
+    qList.innerHTML = '<li class="q">لا توجد نتائج.</li>'; 
+    return; 
+  }
+  list.forEach(item => {
+    const li = document.createElement('li'); 
+    li.className='q';
+    const pages = Array.isArray(item.page) ? item.page.join(', ') : item.page;
+    let html = `${highlightText(item.q, search.value)} <div class="meta">صفحة ${pages}</div>`;
+    html += `<div class="more">${item.more}</div>`;
+    const toggle = document.createElement('span');
+    toggle.innerHTML = '▼';
+    toggle.className='toggle-btn';
+    toggle.addEventListener('click', () => {
+      const more = li.querySelector('.more');
+      more.style.display = more.style.display==='none'?'block':'none';
+    });
+    li.innerHTML = html;
+    li.appendChild(toggle);
+    qList.appendChild(li);
+  });
+}
+render(ALL_ITEMS);
+
+// البحث
+search.addEventListener('input', () => {
+  const term = search.value.trim().toLowerCase();
+  const filtered = ALL_ITEMS.filter(i => 
+    i.q?.toLowerCase().includes(term) || 
+    i.more?.toLowerCase().includes(term) || 
+    i.cat?.toLowerCase().includes(term)
+  );
+  render(filtered);
+});
+
+// فتح وإغلاق الإعدادات
+const openSettings = document.getElementById('openSettings');
+const settingsSlide = document.getElementById('settingsSlide');
+openSettings.addEventListener('click', ()=>{
+  settingsSlide.style.transform = 'translateX(0)';
+  settingsSlide.style.opacity = '1';
+});
+document.addEventListener('click', (e)=>{
+  if(!settingsSlide.contains(e.target) && e.target !== openSettings){
+    settingsSlide.style.transform = 'translateX(100%)';
+    settingsSlide.style.opacity = '0';
+  }
+});
+
+// ✅ تخزين الوضع الداكن/الفاتح
+const toggleThemeBtn = document.getElementById('toggleTheme');
+
+// تحميل الوضع المحفوظ عند بداية الصفحة
+if(localStorage.getItem('theme') === 'light'){
+  document.body.classList.add('light-theme');
+} else {
+  document.body.classList.remove('light-theme');
+}
+
+// التبديل بين الوضعين
+toggleThemeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('light-theme');
+  if(document.body.classList.contains('light-theme')){
+    localStorage.setItem('theme','light');
+  } else {
+    localStorage.setItem('theme','dark');
+  }
+});
+
+// زر التبديل لوضع الأسئلة
+const toggleQuizBtn = document.getElementById('toggle-quiz');
+toggleQuizBtn.addEventListener('click', () => {
+  window.location.href = 'quiz_page.html'; 
+});
+</script>
+
 </body>
 </html>

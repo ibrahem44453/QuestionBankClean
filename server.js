@@ -1,7 +1,6 @@
 let currentIndex = 0;
 let score = 0;
 
-// نسخة من الأسئلة (ممكن تستخدم ALL_ITEMS إذا فيها أسئلة)
 const quizQuestions = ALL_ITEMS.map(q => ({
   question: q.q,
   options: q.more.split(','), // لو عندك خيارات مفصولة بفاصلة
