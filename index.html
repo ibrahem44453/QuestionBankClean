@@ -1,10 +1,6 @@
 <!doctype html>
 <html lang="ar">
 <head>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.239/pdf.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.239/pdf_viewer.min.css"/>
-
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>بنك أسئلة - كتاب تكنولوجيا المعلومات (Pearson BTEC L3)</title>
@@ -576,18 +572,39 @@ const ALL_ITEMS = [
 {id:1119,cat:'المصطلحات',q:'',page:[287],more:''},
 {id:1120,cat:'المصطلحات',q:'',page:[287],more:''}];
 
-/* ===== عناصر DOM ===== */
+/* ===== عناصر DOM ====== */
 const categoriesDiv = document.getElementById('categories');
 const qList = document.getElementById('qList');
 const categoryTitle = document.getElementById('categoryTitle');
 const searchInput = document.getElementById('search');
+
+/* ===== سلايدر الإعدادات (فتح/إغلاق بالنقر خارج) ====== */
+const openSettings = document.getElementById('openSettings');
+const settingsSlide = document.getElementById('settingsSlide');
+
+openSettings.addEventListener('click', (e) => {
+  e.stopPropagation();
+  settingsSlide.style.transform = 'translateX(0%)';
+  settingsSlide.style.opacity = 1;
+});
+
+document.addEventListener('click', (e) => {
+  if (!settingsSlide.contains(e.target) && e.target !== openSettings) {
+    settingsSlide.style.transform = 'translateX(100%)';
+    settingsSlide.style.opacity = 0;
+  }
+});
+
+settingsSlide.addEventListener('click', (e) => {
+  e.stopPropagation();
+});
 
 /* ===== إنشاء أزرار الفئات ===== */
 const uniqueCategories = ['الكل', ...new Set(ALL_ITEMS.map(i => i.cat).filter(Boolean))];
 uniqueCategories.forEach((cat, idx) => {
   const btn = document.createElement('button');
   btn.classList.add('category-btn');
-  if (idx === 0) btn.classList.add('active');
+  if(idx===0) btn.classList.add('active');
   btn.textContent = cat;
   btn.addEventListener('click', () => {
     document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
@@ -597,120 +614,87 @@ uniqueCategories.forEach((cat, idx) => {
   categoriesDiv.appendChild(btn);
 });
 
-/* ===== الدالة: فتح PDF محلي عند صفحة معينة ===== */
-function openPdfAtPage(pageNumber) {
+/* ===== فتح PDF عند صفحة معينة ===== */
+function openPdfAtPage(pageNumber){
   let url = PDF_LOCAL_PATH;
-  if (pageNumber) {
-    url += `#page=${pageNumber}`;
-  }
-  window.open(url, '_blank', 'noopener');
+  if(pageNumber){ url += `#page=${pageNumber}`; }
+  window.open(url,'_blank','noopener');
 }
 
 /* ===== عرض الأسئلة حسب الفئة ===== */
-function showQuestions(category) {
-  qList.innerHTML = '';
-  categoryTitle.textContent = category === 'الكل' ? 'كل الأسئلة والمصطلحات' : category;
-  const filtered = category === 'الكل' ? ALL_ITEMS : ALL_ITEMS.filter(i => i.cat === category);
-  filtered.forEach(item => {
-    if (!item.q && !item.more) return;
+function showQuestions(category){
+  qList.innerHTML='';
+  categoryTitle.textContent = category==='الكل'?'كل الأسئلة والمصطلحات':category;
+  const filtered = category==='الكل'?ALL_ITEMS:ALL_ITEMS.filter(i=>i.cat===category);
+  filtered.forEach(item=>{
+    if(!item.q && !item.more) return;
     const li = document.createElement('li');
     li.classList.add('q');
-
     let pageLinksHtml = '';
-    if (Array.isArray(item.page) && item.page.length) {
-      pageLinksHtml = item.page.map(page => 
-        `<button class="page-btn" data-page="${page}" aria-label="فتح صفحة ${page}">📄 ${page}</button>`
-      ).join(' ');
+    if(Array.isArray(item.page) && item.page.length){
+      pageLinksHtml = item.page.map(page=>`<button class="page-btn" data-page="${page}" aria-label="فتح صفحة ${page}">📄 ${page}</button>`).join(' ');
     } else {
       pageLinksHtml = `<button class="page-btn" data-page="">📄 افتح الكتاب</button>`;
     }
-
-    li.innerHTML = `
-      <strong>${item.q || 'بدون عنوان'}</strong>
+    li.innerHTML = `<strong>${item.q||'بدون عنوان'}</strong>
       <div class="meta">صفحة: ${pageLinksHtml}</div>
-      ${item.more ? `<div class="more">${item.more}</div>` : ''}
-    `;
-
-    li.addEventListener('click', (e) => {
-      const target = e.target;
-      if (target && target.classList.contains('page-btn')) {
+      ${item.more?`<div class="more">${item.more}</div>`:''}`;
+    li.addEventListener('click',(e)=>{
+      const target=e.target;
+      if(target && target.classList.contains('page-btn')){
         const page = target.getAttribute('data-page');
         openPdfAtPage(page);
         return;
       }
       const moreDiv = li.querySelector('.more');
-      if (moreDiv) moreDiv.style.display = moreDiv.style.display === 'block' ? 'none' : 'block';
+      if(moreDiv) moreDiv.style.display = moreDiv.style.display==='block'?'none':'block';
     });
-
     qList.appendChild(li);
   });
 }
 
 /* ===== بحث حي ===== */
-searchInput.addEventListener('input', () => {
-  const q = searchInput.value.trim().toLowerCase();
+searchInput.addEventListener('input',()=>{
+  const q=searchInput.value.trim().toLowerCase();
   const results = ALL_ITEMS.filter(item =>
-    (item.q && item.q.toLowerCase().includes(q)) ||
-    (item.more && item.more.toLowerCase().includes(q))
+    (item.q && item.q.toLowerCase().includes(q)) || (item.more && item.more.toLowerCase().includes(q))
   );
-  qList.innerHTML = '';
-  results.forEach(item => {
-    if (!item.q && !item.more) return;
-    const li = document.createElement('li');
+  qList.innerHTML='';
+  results.forEach(item=>{
+    if(!item.q && !item.more) return;
+    const li=document.createElement('li');
     li.classList.add('q');
-
-    let pageLinksHtml = '';
-    if (Array.isArray(item.page) && item.page.length) {
-      pageLinksHtml = item.page.map(page => `<button class="page-btn" data-page="${page}">📄 ${page}</button>`).join(' ');
+    let pageLinksHtml='';
+    if(Array.isArray(item.page) && item.page.length){
+      pageLinksHtml = item.page.map(page=>`<button class="page-btn" data-page="${page}">📄 ${page}</button>`).join(' ');
     } else {
       pageLinksHtml = `<button class="page-btn" data-page="">📄 افتح الكتاب</button>`;
     }
-
-    li.innerHTML = `
-      <strong>${item.q || 'بدون عنوان'}</strong>
+    li.innerHTML = `<strong>${item.q||'بدون عنوان'}</strong>
       <div class="meta">صفحة: ${pageLinksHtml}</div>
-      ${item.more ? `<div class="more">${item.more}</div>` : ''}
-    `;
-
-    li.addEventListener('click', (e) => {
-      const target = e.target;
-      if (target && target.classList.contains('page-btn')) {
+      ${item.more?`<div class="more">${item.more}</div>`:''}`;
+    li.addEventListener('click',(e)=>{
+      const target=e.target;
+      if(target && target.classList.contains('page-btn')){
         const page = target.getAttribute('data-page');
         openPdfAtPage(page);
         return;
       }
       const moreDiv = li.querySelector('.more');
-      if (moreDiv) moreDiv.style.display = moreDiv.style.display === 'block' ? 'none' : 'block';
+      if(moreDiv) moreDiv.style.display = moreDiv.style.display==='block'?'none':'block';
     });
-
     qList.appendChild(li);
   });
 });
 
-/* عرض افتراضي */
+/* ===== عرض افتراضي ===== */
 showQuestions('الكل');
 
-/* سلايد الإعدادات */
-const openSettings = document.getElementById('openSettings');
-const settingsSlide = document.getElementById('settingsSlide');
-
-openSettings.addEventListener('click', () => {
-  if (settingsSlide.style.transform === 'translateX(0%)') {
-    settingsSlide.style.transform = 'translateX(100%)';
-    settingsSlide.style.opacity = 0;
-  } else {
-    settingsSlide.style.transform = 'translateX(0%)';
-    settingsSlide.style.opacity = 1;
-  }
-});
-
-/* تبديل الوضع الداكن / الفاتح */
+/* ===== تبديل الوضع الداكن / الفاتح ===== */
 const toggleThemeBtn = document.getElementById('toggleTheme');
-
-toggleThemeBtn.addEventListener('click', () => {
-  document.body.classList.toggle('light-theme'); // يبدل بين الوضع الفاتح والداكن
-});
-</script>
+toggleThemeBtn.addEventListener('click',()=>{
+  document.body.classList.toggle('light-theme');
+});</script>
 
 
 </body>
