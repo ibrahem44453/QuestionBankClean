@@ -1,97 +1,137 @@
 <!doctype html>
 <html lang="ar">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>وضع الكويز - بنك الأسئلة</title>
-  <style>
-    /* ===================== روابط وألوان أساسية ===================== */
-    a { text-decoration:none; color:#e6eef6; border-color:#9fe3ff; font-size:15px; transition: transform 0.3s, text-shadow 0.3s, font-size 0.3s, font-weight 0.3s; }
-    a:hover { text-shadow:0 0 1px #fff; transform: scale(1.1); font-size:16px; font-weight:bold; }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>وضع الكويز - بنك الأسئلة</title>
+<style>
+  /* ===================== ألوان ووضعيات ===================== */
+  :root{
+    --bg:#0f1724; --card:#0b1220; --accent:#06b6d4;
+    --muted:#94a3b8; --text:#e6eef6; color-scheme:dark;
+  }
+  body{
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Naskh Arabic",Arial;
+    margin:0; padding:20px; direction:rtl; text-align:right;
+    background:linear-gradient(180deg,#071024 0%,#071a2a 100%);
+    color:var(--text); transition: background 0.3s, color 0.3s;
+  }
+  body.light-theme{
+    --bg:#f0f4f8; --card:#ffffff; --accent:#06b6d4;
+    --muted:#475569; --text:#0f1724; color-scheme:light;
+    background:linear-gradient(180deg,#ffffff 0%,#e2e8f0 100%);
+  }
 
-    :root{--bg:#0f1724;--card:#0b1220;--accent:#06b6d4;--muted:#94a3b8;--text:#e6eef6; color-scheme:dark}
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Naskh Arabic",Arial; margin:0; padding:24px; direction:rtl; text-align:right; background:linear-gradient(180deg,#071024 0%,#071a2a 100%); color:var(--text); transition: background 0.3s, color 0.3s;}
+  a{ text-decoration:none; color:#e6eef6; font-size:15px; transition:0.3s; }
+  a:hover{ transform:scale(1.1); }
 
-    body.light-theme{--bg:#f0f4f8; --card:#ffffff; --accent:#06b6d4; --muted:#475569; --text:#0f1724; color-scheme:light; background:linear-gradient(180deg,#ffffff 0%,#e2e8f0 100%);}
-    
-    /* ===================== الحاوية الرئيسية ===================== */
-    .container{max-width:800px; margin:0 auto;}
-    h1{text-align:center;}
-    
-    /* ===================== الهيدر ===================== */
-    .header{position:sticky; top:0; left:0; width:100%; display:flex; justify-content:space-between; align-items:center; padding:12px 20px; background:var(--card); border-bottom:2px solid #333; border-radius:12px; z-index:1000; box-sizing:border-box;}
-    .site-title{font-size:20px; font-weight:bold; color:var(--text); margin:0;}
-    .header-icons{font-size:22px; cursor:pointer; transition:transform 0.2s;}
-    .header-icons:hover{transform:rotate(30deg);}
+  /* ===================== الهيدر ===================== */
+  .header{
+    position:sticky; top:0; left:0; width:100%; display:flex; justify-content:space-between; align-items:center;
+    padding:12px 20px; background:var(--card); border-bottom:2px solid #333; border-radius:12px; z-index:1000;
+  }
+  .site-title{font-size:20px; font-weight:bold; color:var(--text);}
+  .header-icons{font-size:22px; cursor:pointer; transition:transform 0.2s;}
+  .header-icons:hover{transform:rotate(30deg);}
 
-    /* ===================== السلايدر ===================== */
-    #settingsSlide{position:fixed; top:0; right:0; width:300px; max-width:80vw; height:100%; background:var(--card); box-shadow:-4px 0 20px rgba(0,0,0,0.6); z-index:1002; padding:20px; transform:translateX(100%); opacity:0; transition: transform 0.5s ease, opacity 0.5s ease; border-radius:12px 0 0 12px;}
-    body.light-theme #settingsSlide{background: rgba(240, 221, 221, 0.527); color:#0f1724; box-shadow:-4px 0 20px rgba(0,0,0,0.15); border:1px solid #ddd;}
+  /* ===================== السلايدر ===================== */
+  #settingsSlide{
+    position:fixed; top:0; right:0; width:280px; max-width:80vw; height:100%;
+    background:var(--card); color:var(--text);
+    box-shadow:-4px 0 20px rgba(0,0,0,0.6); z-index:1002;
+    padding:20px; transform:translateX(100%); opacity:0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    border-radius:12px 0 0 12px;
+  }
+  body.light-theme #settingsSlide{
+    background:rgba(240,221,221,0.9); color:#0f1724; box-shadow:-4px 0 20px rgba(0,0,0,0.15); border:1px solid #ddd;
+  }
 
-    /* ===================== أزرار ===================== */
-    button{font-family:inherit; cursor:pointer; border:none; border-radius:25px; padding:10px 18px; font-size:14px; transition:all 0.3s ease; box-shadow:0 4px 10px rgba(0,0,0,0.3);}
-    #toggleTheme{background:linear-gradient(90deg,#06b6d4,#3b82f6); color:#d8d1d1; margin-top:20px;}
-    #toggleTheme:hover{transform:scale(1.1); box-shadow:0 6px 15px rgba(0,0,0,0.4); background:linear-gradient(90deg,#3b82f6,#06b6d4); color:#fff;}
-    #toggleTheme:active{transform:scale(0.95); box-shadow:0 3px 8px rgba(0,0,0,0.3);}
-    #toggle-quiz{background-color:#53555756; color:#fff;}
+  /* ===================== أزرار ===================== */
+  button{
+    font-family:inherit; cursor:pointer; border:none; border-radius:25px;
+    padding:10px 18px; font-size:14px; transition:all 0.3s ease; box-shadow:0 4px 10px rgba(0,0,0,0.3);
+  }
+  #toggleTheme{background:linear-gradient(90deg,#06b6d4,#3b82f6); color:#d8d1d1; margin-top:10px;}
+  #toggleTheme:hover{transform:scale(1.1); background:linear-gradient(90deg,#3b82f6,#06b6d4); color:#fff;}
+  #toggle-quiz{background-color:#53555756; color:#fff;}
 
-    /* ===================== الكويز ===================== */
-    .quiz-container{background-color:var(--card); padding:30px; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.1); margin-top:20px; transition:background 0.3s, color 0.3s;}
-    .question{font-size:18px; margin-bottom:15px;}
-    .answers button{display:block; width:100%; margin-bottom:10px; padding:10px; border:none; border-radius:10px; background-color:#3b82f6; color:white; cursor:pointer; font-size:16px; transition:background 0.3s;}
-    .answers button:hover{background-color:#2563eb;}
-    .results{text-align:center; font-size:20px; margin-top:20px;}
+  /* ===================== الكويز ===================== */
+  .quiz-container{
+    background-color:var(--card); padding:20px; border-radius:15px; margin-top:20px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1); transition: background 0.3s, color 0.3s;
+  }
+  .question{font-size:18px; margin-bottom:15px;}
+  .answers button{display:block; width:100%; margin-bottom:10px; padding:10px; border-radius:10px; background-color:#3b82f6; color:white; font-size:16px;}
+  .answers button:hover{background-color:#2563eb;}
+  .results{text-align:center; font-size:20px; margin-top:20px;}
 
-  </style>
+  /* ===================== ميديا للهاتف ===================== */
+  @media(max-width:480px){
+    .header{flex-direction:column; align-items:flex-start; gap:8px;}
+    .site-title{font-size:18px;}
+    #settingsSlide{width:220px; padding:12px;}
+    .quiz-container{padding:15px;}
+    .question{font-size:16px;}
+    .answers button{font-size:14px; padding:8px;}
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    <!-- الهيدر -->
-    <div class="header">
-      <h1 class="site-title">بنك الأسئلة - Pearson BTEC L3</h1>
-      <div>
-        <button id="toggle-quiz">التبديل لوضع الأسئلة</button>
-        <span class="header-icons" id="openSettings">⚙️</span>
-      </div>
-    </div>
-
-    <!-- حاوية الكويز -->
-    <div class="quiz-container" id="quiz-container">
-      <h1>وضع الكويز</h1>
-      <div id="quiz"></div>
-      <div class="results" id="results"></div>
-    </div>
-
-    <!-- السلايدر -->
-    <div id="settingsSlide">
-      <button id="toggleTheme">تبديل الوضع</button>
+<div class="container">
+  <div class="header">
+    <h1 class="site-title">بنك الأسئلة - Pearson BTEC L3</h1>
+    <div>
+      <button id="toggle-quiz">التبديل لوضع الأسئلة</button>
+      <span class="header-icons" id="openSettings">⚙️</span>
     </div>
   </div>
+
+  <div class="quiz-container" id="quiz-container">
+    <h1>وضع الكويز</h1>
+    <div id="quiz"></div>
+    <div class="results" id="results"></div>
+  </div>
+
+  <div id="settingsSlide">
+    <button id="toggleTheme">تبديل الوضع</button>
+  </div>
+</div>
 
 <script>
   // ======== الوضع الداكن/الفاتح ========
   const body = document.body;
   const toggleThemeBtn = document.getElementById('toggleTheme');
+  const settingsSlide = document.getElementById('settingsSlide');
+
   if(localStorage.getItem('theme')==='light'){body.classList.add('light-theme');}
-  toggleThemeBtn.addEventListener('click',()=>{body.classList.toggle('light-theme'); localStorage.setItem('theme', body.classList.contains('light-theme')?'light':'dark');});
+
+  toggleThemeBtn.addEventListener('click', ()=>{
+    body.classList.toggle('light-theme');
+    localStorage.setItem('theme', body.classList.contains('light-theme')?'light':'dark');
+
+    // لإعادة رسم السلايدر فورًا على الهاتف
+    settingsSlide.style.display='none';
+    void settingsSlide.offsetWidth;
+    settingsSlide.style.display='';
+  });
 
   // ======== فتح وغلق السلايدر ========
-  const settingsSlide = document.getElementById('settingsSlide');
   const openSettingsBtn = document.getElementById('openSettings');
-  openSettingsBtn.addEventListener('click',()=>{settingsSlide.style.transform='translateX(0)'; settingsSlide.style.opacity='1';});
+  openSettingsBtn.addEventListener('click', ()=>{settingsSlide.style.transform='translateX(0)'; settingsSlide.style.opacity='1';});
   document.addEventListener('click',(e)=>{if(!settingsSlide.contains(e.target)&&e.target!==openSettingsBtn){settingsSlide.style.transform='translateX(100%)'; settingsSlide.style.opacity='0';}});
 
   // ======== التبديل لوضع الكويز ========
   document.getElementById('toggle-quiz').addEventListener('click',()=>{window.location.href='index.html';});
 
   // ======== بيانات الكويز ========
-  const quizData = [
+  const quizData=[
     {q:"مصطلح (SSL)", options:["Secure Sockets Layer","Simple Secure Login","Safe Server Link","System Security Level"], answer:"Secure Sockets Layer"},
     {q:"ما هو لغة البرمجة التي نستخدمها للويب؟", options:["Python","JavaScript","C++","Java"], answer:"JavaScript"},
     {q:"ما هو الناتج من 2 + 2؟", options:["3","4","5","6"], answer:"4"}
   ];
 
-  let currentQuestion=0; let score=0;
+  let currentQuestion=0, score=0;
   const quizEl=document.getElementById('quiz');
   const resultsEl=document.getElementById('results');
 
@@ -104,8 +144,7 @@
 
   function selectAnswer(selected){
     if(selected===quizData[currentQuestion].answer) score++;
-    currentQuestion++;
-    showQuestion();
+    currentQuestion++; showQuestion();
   }
 
   showQuestion();
