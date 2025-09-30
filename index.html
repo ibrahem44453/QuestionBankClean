@@ -146,6 +146,14 @@ body.light-theme {
   color-scheme: light;
   background: linear-gradient(180deg,#ffffff 0%,#e2e8f0 100%);
 }
+/* السلايد بالوضع الفاتح */
+body.light-theme #settingsSlide {
+  background: rgba(240, 221, 221, 0.527); /* أبيض شفاف */
+  color: #0f1724;                        /* خط غامق */
+  box-shadow: -4px 0 20px rgba(0,0,0,0.15);
+  border: 1px solid #ddd;
+}
+
 body.light-theme .card {
   background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(255,255,255,0.12));
 }
@@ -252,7 +260,7 @@ body.light-theme .card {
 .noteItem button:hover {
   background-color: #c0392b;
 }
-/* ✅ شاشات لابتوب وتابلت */
+
 @media (max-width: 768px) {
   .header {
     flex-direction: column;
