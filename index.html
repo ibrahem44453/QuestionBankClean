@@ -405,8 +405,8 @@ body.light-theme .card {
     <button id="toggleTheme" style="margin-top:20px;">تبديل الوضع</button>
   </div>
 <script>
-/* ====== إعداد: ضع هنا File ID لملف الـ PDF على Drive ====== */
-const PDF_FILE_ID = '1G9rE_nlo3nQkZbiI4lRzz6U1aV7UdNA6';
+/* ====== إعداد: ملف PDF محلي ====== */
+const PDF_LOCAL_PATH = 'pdf/book.pdf'; // ضع هنا اسم ملف PDF مع الامتداد
 
 /* ===== بيانات الأسئلة/المصطلحات ===== */
 const ALL_ITEMS = [
@@ -597,9 +597,12 @@ uniqueCategories.forEach((cat, idx) => {
   categoriesDiv.appendChild(btn);
 });
 
-/* ===== الدالة: فتح PDF على صفحة معينة ===== */
+/* ===== الدالة: فتح PDF محلي عند صفحة معينة ===== */
 function openPdfAtPage(pageNumber) {
-  const url = `https://drive.google.com/file/d/${PDF_FILE_ID}/preview#page=${pageNumber}`;
+  let url = PDF_LOCAL_PATH;
+  if (pageNumber) {
+    url += `#page=${pageNumber}`;
+  }
   window.open(url, '_blank', 'noopener');
 }
 
@@ -686,26 +689,27 @@ searchInput.addEventListener('input', () => {
 
 /* عرض افتراضي */
 showQuestions('الكل');
+
+/* سلايد الإعدادات */
 const openSettings = document.getElementById('openSettings');
 const settingsSlide = document.getElementById('settingsSlide');
 
 openSettings.addEventListener('click', () => {
   if (settingsSlide.style.transform === 'translateX(0%)') {
-    // أغلق السلايد
     settingsSlide.style.transform = 'translateX(100%)';
     settingsSlide.style.opacity = 0;
   } else {
-    // افتح السلايد
     settingsSlide.style.transform = 'translateX(0%)';
     settingsSlide.style.opacity = 1;
   }
 });
+
+/* تبديل الوضع الداكن / الفاتح */
 const toggleThemeBtn = document.getElementById('toggleTheme');
 
 toggleThemeBtn.addEventListener('click', () => {
   document.body.classList.toggle('light-theme'); // يبدل بين الوضع الفاتح والداكن
 });
-
 </script>
 
 
