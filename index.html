@@ -1,9 +1,11 @@
 <!doctype html>
 <html lang="ar">
 <head>
+  <link rel="icon" type="image/png" href="Assets/Photos/Logo.png">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>بنك أسئلة - كتاب تكنولوجيا المعلومات (Pearson BTEC L3)</title>
+  <title>تلخيص كتـــــب</title>
   <style>
 a {
   text-decoration: none;
@@ -260,6 +262,67 @@ body.light-theme .card {
 .noteItem button:hover {
   background-color: #c0392b;
 }
+footer {
+  margin-top: 30px;
+  padding: 20px;
+  background: var(--card);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Naskh Arabic", Arial;
+  font-size: 14px;
+}
+
+/* تقسيم الفوتر لثلاث أعمدة */
+footer .footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+/* كل قسم داخل الفوتر */
+footer .footer-section {
+  flex: 1 1 200px;
+}
+
+/* عناوين الأقسام */
+footer .footer-section h4 {
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-size: 16px;
+}
+
+/* القوائم داخل كل قسم */
+footer .footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+footer .footer-section ul li {
+  margin-bottom: 6px;
+}
+
+/* روابط داخل الفوتر */
+footer .footer-section ul li a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+footer .footer-section ul li a:hover {
+  color: var(--accent);
+}
+
+/* النص النهائي */
+footer .footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
 
 @media (max-width: 768px) {
   .header {
@@ -303,6 +366,13 @@ body.light-theme .card {
     font-size: 15px;
     padding: 14px;
     border-radius: 12px 0 0 12px;
+  }
+    footer .footer-container {
+    flex-direction: column;
+    gap: 12px;
+  }
+  footer .footer-section {
+    flex: 1 1 100%;
   }
 }
 
@@ -348,11 +418,107 @@ body.light-theme .card {
     font-size: 13px;
     padding: 12px;
   }
+   footer {
+    padding: 15px;
+    font-size: 13px;
+  }
+  footer .footer-section h4 {
+    font-size: 14px;
+  }
+  footer .footer-bottom {
+    font-size: 12px;
+  }
+    #settingsSlide {
+    width: 220px;
+    padding: 12px;
+    font-size: 13px;
+  }
+  #settingsSlide button {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
 }
+#settingsSlide {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  max-width: 80vw;
+  height: 100%;
+  background: rgba(11, 18, 32, 0.95);
+  box-shadow: -4px 0 20px rgba(0,0,0,0.6);
+  z-index: 1002;
+  padding: 20px;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  border-radius: 12px 0 0 12px;
+}
+
+/* أزرار صغيرة للتخصيص */
+#settingsSlide button {
+  padding: 8px 12px;
+  margin: 3px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+#settingsSlide button:hover {
+  transform: scale(1.05);
+}
+
+/* أزرار ألوان */
+.colorBtn {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* أزرار حجم الخط */
+.fontSizeBtn {
+  background: var(--card);
+  color: var(--text);
+}
+
+/* الوضع الفاتح */
+body.light-theme #settingsSlide {
+  background: rgba(240, 221, 221, 0.527);
+  color: #0f1724;
+  box-shadow: -4px 0 20px rgba(0,0,0,0.15);
+  border: 1px solid #ddd;
+}
+
+/* التوافق مع الهواتف */
+
 
   </style>
 </head>
 <body>
+  <!-- سلايد الإعدادات -->
+<div id="settingsSlide">
+  <h3 style="margin-bottom:10px; color:var(--accent);">الإعدادات</h3>
+
+  <!-- تبديل الوضع الداكن / الفاتح -->
+  <div style="margin-bottom:15px;">
+    <button id="toggleTheme">تبديل الوضع</button>
+  </div>
+
+  <!-- تغيير حجم الخط -->
+  <div style="margin-bottom:15px;">
+    <label style="display:block; margin-bottom:5px;">حجم الخط:</label>
+    <button class="fontSizeBtn" data-size="14px">صغير</button>
+    <button class="fontSizeBtn" data-size="16px">متوسط</button>
+    <button class="fontSizeBtn" data-size="18px">كبير</button>
+  </div>
+
+</div>
+
     <div class="container">
     <div class="header">
       <h1 class="site-title">بنك أسئلة - Pearson BTEC L3</h1>
@@ -391,15 +557,55 @@ body.light-theme .card {
       </main>
     </div>
 
-    <footer>
-      <p><a href="">المصدر</a></p>
-    </footer>
+  
   </div>
 
   <!-- سلايد الإعدادات -->
   <div id="settingsSlide">
     <button id="toggleTheme" style="margin-top:20px;">تبديل الوضع</button>
   </div>
+  <footer style="margin-top:30px; padding:20px; background:var(--card); border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.3);">
+  <div style="display:flex; flex-wrap:wrap; justify-content:space-between; gap:15px; color:var(--text); font-size:14px;">
+    <!-- قسم سياسات الاستخدام -->
+    <div style="flex:1 1 200px;">
+      <h4 style="margin-bottom:8px; color:var(--accent);">سياسات الاستخدام</h4>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li><a href="#" style="color:inherit; text-decoration:none;">شروط الاستخدام</a></li>
+        <li><a href="#" style="color:inherit; text-decoration:none;">سياسة الخصوصية</a></li>
+        <li><a href="#" style="color:inherit; text-decoration:none;">إخلاء المسؤولية</a></li>
+      </ul>
+    </div>
+
+    <!-- قسم الدعم -->
+    <div style="flex:1 1 200px;">
+      <h4 style="margin-bottom:8px; color:var(--accent);">الدعم</h4>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li><a href="#" style="color:inherit; text-decoration:none;">مركز المساعدة</a></li>
+        <li><a href="#" style="color:inherit; text-decoration:none;">الأسئلة الشائعة (FAQ)</a></li>
+        <li><a href="#" style="color:inherit; text-decoration:none;">التقارير والملاحظات</a></li>
+      </ul>
+    </div>
+
+    <!-- قسم التواصل -->
+    <div style="flex:1 1 200px;">
+      <h4 style="margin-bottom:8px; color:var(--accent);">تواصل معنا</h4>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li>البريد الإلكتروني: <a href="mailto:info@example.com" style="color:inherit; text-decoration:none;">info@example.com</a></li>
+        <li>الهاتف: <a href="tel:+96200000000" style="color:inherit; text-decoration:none;">+962 000 000 000</a></li>
+        <li>تابعنا على:
+          <a href="#" style="color:inherit; margin-left:5px;">فيسبوك</a> |
+          <a href="#" style="color:inherit; margin-left:5px;">تويتر</a> |
+          <a href="#" style="color:inherit; margin-left:5px;">إنستجرام</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:20px; font-size:13px; color:var(--muted);">
+    جميع الحقوق محفوظة © 2025 | بنك أسئلة - Pearson BTEC L3
+  </div>
+</footer>
+
 <script>
 /* ====== إعداد: ملف PDF محلي ====== */
 const PDF_LOCAL_PATH = 'pdf/book.pdf'; // ضع هنا اسم ملف PDF مع الامتداد
@@ -632,9 +838,9 @@ function showQuestions(category){
     li.classList.add('q');
     let pageLinksHtml = '';
     if(Array.isArray(item.page) && item.page.length){
-      pageLinksHtml = item.page.map(page=>`<button class="page-btn" data-page="${page}" aria-label="فتح صفحة ${page}">📄 ${page}</button>`).join(' ');
+      pageLinksHtml = item.page.map(page=>`<button class="page-btn" data-page="${page}" aria-label="فتح صفحة ${page}"> ${page}</button>`).join(' ');
     } else {
-      pageLinksHtml = `<button class="page-btn" data-page="">📄 افتح الكتاب</button>`;
+      pageLinksHtml = `<button class="page-btn" data-page=""> افتح الكتاب</button>`;
     }
     li.innerHTML = `<strong>${item.q||'بدون عنوان'}</strong>
       <div class="meta">صفحة: ${pageLinksHtml}</div>
@@ -666,9 +872,9 @@ searchInput.addEventListener('input',()=>{
     li.classList.add('q');
     let pageLinksHtml='';
     if(Array.isArray(item.page) && item.page.length){
-      pageLinksHtml = item.page.map(page=>`<button class="page-btn" data-page="${page}">📄 ${page}</button>`).join(' ');
+      pageLinksHtml = item.page.map(page=>`<button class="page-btn" data-page="${page}"> ${page}</button>`).join(' ');
     } else {
-      pageLinksHtml = `<button class="page-btn" data-page="">📄 افتح الكتاب</button>`;
+      pageLinksHtml = `<button class="page-btn" data-page=""> افتح الكتاب</button>`;
     }
     li.innerHTML = `<strong>${item.q||'بدون عنوان'}</strong>
       <div class="meta">صفحة: ${pageLinksHtml}</div>
@@ -694,7 +900,27 @@ showQuestions('الكل');
 const toggleThemeBtn = document.getElementById('toggleTheme');
 toggleThemeBtn.addEventListener('click',()=>{
   document.body.classList.toggle('light-theme');
-});</script>
+});
+
+// اختيار كل الأزرار التي تغير حجم الخط
+const fontSizeButtons = document.querySelectorAll('.fontSizeBtn');
+
+// استرجاع حجم الخط من localStorage عند تحميل الصفحة
+if(localStorage.getItem('fontSize')){
+  document.body.style.fontSize = localStorage.getItem('fontSize');
+}
+
+// إضافة حدث لكل زر
+fontSizeButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const size = btn.getAttribute('data-size');
+    document.body.style.fontSize = size;
+    localStorage.setItem('fontSize', size); // حفظ الحجم في localStorage
+  });
+});
+
+
+</script>
 
 
 </body>
