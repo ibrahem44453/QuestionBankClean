@@ -1,6 +1,10 @@
 <!doctype html>
 <html lang="ar">
 <head>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.239/pdf.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.239/pdf_viewer.min.css"/>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>بنك أسئلة - كتاب تكنولوجيا المعلومات (Pearson BTEC L3)</title>
@@ -400,9 +404,13 @@ body.light-theme .card {
   <div id="settingsSlide">
     <button id="toggleTheme" style="margin-top:20px;">تبديل الوضع</button>
   </div>
+<script>
+/* ====== إعداد: ضع هنا File ID لملف الـ PDF على Drive ====== */
+const PDF_FILE_ID = '1G9rE_nlo3nQkZbiI4lRzz6U1aV7UdNA6';
 
-  <script>
-const ALL_ITEMS = [  {id:44,cat:'ادارت مشاريع تكنلوجيا المعلومات',q:'',page:[133],more:''},
+/* ===== بيانات الأسئلة/المصطلحات ===== */
+const ALL_ITEMS = [
+ {id:44,cat:'ادارت مشاريع تكنلوجيا المعلومات',q:'',page:[133],more:''},
       {id:1,cat:'الامن السبراني و ادارت الحوادث',q:'تهديدات الامن السيبراني',page:[132,133],more:'1:الموظفون (الفساد الداخلي)<br>2: الوصول الغير مصرح به <br>3: الأجرائات الامنيت الضعيفة <br>4: عدم التدريب الكافي للموظفين<br>5: زيارت مواقع غير موثوقة<br>6:زوار المؤسسة/الشركة'},
       {id:2,cat:'الامن السبراني و ادارت الحوادث',q:'البرامج الخبيثة',page:[133,134],more:'1:برامج التجسس<br>2:البرامج الدعائية<br>3:برامج الفدية<br>4:الفيروسات<br>5:القرصنة<br>6:التخريب'},
       {id:3,cat:'الامن السبراني و ادارت الحوادث',q:'(Social Engineering Threats) تهديدات الهندسة الاجتماعية',page:[135],more:''},
@@ -565,114 +573,141 @@ const ALL_ITEMS = [  {id:44,cat:'ادارت مشاريع تكنلوجيا الم
 {id:1116,cat:'المصطلحات',q:'',page:[287],more:''},
 {id:1117,cat:'المصطلحات',q:'',page:[287],more:''},
 {id:1118,cat:'المصطلحات',q:'',page:[287],more:''},
-{id:1119,cat:'المصطلحات',q:'',page:[287],more:''},  ];
+{id:1119,cat:'المصطلحات',q:'',page:[287],more:''},
+{id:1120,cat:'المصطلحات',q:'',page:[287],more:''}];
 
-// عناصر DOM
-const qList = document.getElementById('qList');
-const search = document.getElementById('search');
+/* ===== عناصر DOM ===== */
 const categoriesDiv = document.getElementById('categories');
+const qList = document.getElementById('qList');
 const categoryTitle = document.getElementById('categoryTitle');
+const searchInput = document.getElementById('search');
 
-// استخراج الفئات
-const CATEGORIES = [...new Set(ALL_ITEMS.map(i => i.cat))];
-CATEGORIES.forEach(cat => {
+/* ===== إنشاء أزرار الفئات ===== */
+const uniqueCategories = ['الكل', ...new Set(ALL_ITEMS.map(i => i.cat).filter(Boolean))];
+uniqueCategories.forEach((cat, idx) => {
   const btn = document.createElement('button');
-  btn.className = 'category-btn';
-  btn.innerText = cat;
+  btn.classList.add('category-btn');
+  if (idx === 0) btn.classList.add('active');
+  btn.textContent = cat;
   btn.addEventListener('click', () => {
     document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    categoryTitle.innerText = cat;
-    render(ALL_ITEMS.filter(i => i.cat === cat));
+    showQuestions(cat);
   });
   categoriesDiv.appendChild(btn);
 });
 
-// تمييز النص
-function highlightText(text, term){
-  if(!term) return text;
-  const re = new RegExp(`(${term})`, 'gi');
-  return text.replace(re, '<span class="highlight">$1</span>');
+/* ===== الدالة: فتح PDF على صفحة معينة ===== */
+function openPdfAtPage(pageNumber) {
+  const url = `https://drive.google.com/file/d/${PDF_FILE_ID}/preview#page=${pageNumber}`;
+  window.open(url, '_blank', 'noopener');
 }
 
-// عرض الأسئلة
-function render(list){
+/* ===== عرض الأسئلة حسب الفئة ===== */
+function showQuestions(category) {
   qList.innerHTML = '';
-  if(list.length===0){ 
-    qList.innerHTML = '<li class="q">لا توجد نتائج.</li>'; 
-    return; 
-  }
-  list.forEach(item => {
-    const li = document.createElement('li'); 
-    li.className='q';
-    const pages = Array.isArray(item.page) ? item.page.join(', ') : item.page;
-    let html = `${highlightText(item.q, search.value)} <div class="meta">صفحة ${pages}</div>`;
-    html += `<div class="more">${item.more}</div>`;
-    const toggle = document.createElement('span');
-    toggle.innerHTML = '▼';
-    toggle.className='toggle-btn';
-    toggle.addEventListener('click', () => {
-      const more = li.querySelector('.more');
-      more.style.display = more.style.display==='none'?'block':'none';
+  categoryTitle.textContent = category === 'الكل' ? 'كل الأسئلة والمصطلحات' : category;
+  const filtered = category === 'الكل' ? ALL_ITEMS : ALL_ITEMS.filter(i => i.cat === category);
+  filtered.forEach(item => {
+    if (!item.q && !item.more) return;
+    const li = document.createElement('li');
+    li.classList.add('q');
+
+    let pageLinksHtml = '';
+    if (Array.isArray(item.page) && item.page.length) {
+      pageLinksHtml = item.page.map(page => 
+        `<button class="page-btn" data-page="${page}" aria-label="فتح صفحة ${page}">📄 ${page}</button>`
+      ).join(' ');
+    } else {
+      pageLinksHtml = `<button class="page-btn" data-page="">📄 افتح الكتاب</button>`;
+    }
+
+    li.innerHTML = `
+      <strong>${item.q || 'بدون عنوان'}</strong>
+      <div class="meta">صفحة: ${pageLinksHtml}</div>
+      ${item.more ? `<div class="more">${item.more}</div>` : ''}
+    `;
+
+    li.addEventListener('click', (e) => {
+      const target = e.target;
+      if (target && target.classList.contains('page-btn')) {
+        const page = target.getAttribute('data-page');
+        openPdfAtPage(page);
+        return;
+      }
+      const moreDiv = li.querySelector('.more');
+      if (moreDiv) moreDiv.style.display = moreDiv.style.display === 'block' ? 'none' : 'block';
     });
-    li.innerHTML = html;
-    li.appendChild(toggle);
+
     qList.appendChild(li);
   });
 }
-render(ALL_ITEMS);
 
-// البحث
-search.addEventListener('input', () => {
-  const term = search.value.trim().toLowerCase();
-  const filtered = ALL_ITEMS.filter(i => 
-    i.q?.toLowerCase().includes(term) || 
-    i.more?.toLowerCase().includes(term) || 
-    i.cat?.toLowerCase().includes(term)
+/* ===== بحث حي ===== */
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  const results = ALL_ITEMS.filter(item =>
+    (item.q && item.q.toLowerCase().includes(q)) ||
+    (item.more && item.more.toLowerCase().includes(q))
   );
-  render(filtered);
+  qList.innerHTML = '';
+  results.forEach(item => {
+    if (!item.q && !item.more) return;
+    const li = document.createElement('li');
+    li.classList.add('q');
+
+    let pageLinksHtml = '';
+    if (Array.isArray(item.page) && item.page.length) {
+      pageLinksHtml = item.page.map(page => `<button class="page-btn" data-page="${page}">📄 ${page}</button>`).join(' ');
+    } else {
+      pageLinksHtml = `<button class="page-btn" data-page="">📄 افتح الكتاب</button>`;
+    }
+
+    li.innerHTML = `
+      <strong>${item.q || 'بدون عنوان'}</strong>
+      <div class="meta">صفحة: ${pageLinksHtml}</div>
+      ${item.more ? `<div class="more">${item.more}</div>` : ''}
+    `;
+
+    li.addEventListener('click', (e) => {
+      const target = e.target;
+      if (target && target.classList.contains('page-btn')) {
+        const page = target.getAttribute('data-page');
+        openPdfAtPage(page);
+        return;
+      }
+      const moreDiv = li.querySelector('.more');
+      if (moreDiv) moreDiv.style.display = moreDiv.style.display === 'block' ? 'none' : 'block';
+    });
+
+    qList.appendChild(li);
+  });
 });
 
-// فتح وإغلاق الإعدادات
+/* عرض افتراضي */
+showQuestions('الكل');
 const openSettings = document.getElementById('openSettings');
 const settingsSlide = document.getElementById('settingsSlide');
-openSettings.addEventListener('click', ()=>{
-  settingsSlide.style.transform = 'translateX(0)';
-  settingsSlide.style.opacity = '1';
-});
-document.addEventListener('click', (e)=>{
-  if(!settingsSlide.contains(e.target) && e.target !== openSettings){
+
+openSettings.addEventListener('click', () => {
+  if (settingsSlide.style.transform === 'translateX(0%)') {
+    // أغلق السلايد
     settingsSlide.style.transform = 'translateX(100%)';
-    settingsSlide.style.opacity = '0';
+    settingsSlide.style.opacity = 0;
+  } else {
+    // افتح السلايد
+    settingsSlide.style.transform = 'translateX(0%)';
+    settingsSlide.style.opacity = 1;
   }
 });
-
-// ✅ تخزين الوضع الداكن/الفاتح
 const toggleThemeBtn = document.getElementById('toggleTheme');
 
-// تحميل الوضع المحفوظ عند بداية الصفحة
-if(localStorage.getItem('theme') === 'light'){
-  document.body.classList.add('light-theme');
-} else {
-  document.body.classList.remove('light-theme');
-}
-
-// التبديل بين الوضعين
 toggleThemeBtn.addEventListener('click', () => {
-  document.body.classList.toggle('light-theme');
-  if(document.body.classList.contains('light-theme')){
-    localStorage.setItem('theme','light');
-  } else {
-    localStorage.setItem('theme','dark');
-  }
+  document.body.classList.toggle('light-theme'); // يبدل بين الوضع الفاتح والداكن
 });
 
-// زر التبديل لوضع الأسئلة
-const toggleQuizBtn = document.getElementById('toggle-quiz');
-toggleQuizBtn.addEventListener('click', () => {
-  window.location.href = 'quiz_page.html'; 
-});
 </script>
+
 
 </body>
 </html>
