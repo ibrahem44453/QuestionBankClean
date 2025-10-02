@@ -32,21 +32,21 @@ input[type=search] {
   flex: 1;
   padding: 10px 12px;
   border-radius: 10px;
-  border: 2px solid #00000071; /* حد أسود 2px */
+  border: 2px solid #00000071; 
   background: rgba(255, 255, 255, 0.02);
   color: inherit;
   direction: ltr;
   text-align: left;
 }
 button{padding:10px;border-radius:10px;border:none;background:var(--card);color:inherit;cursor:pointer}
-.grid{display:grid;grid-template-columns:1fr;gap:18px} /* عمود واحد لتسهيل ترتيب الفئات فوق */
+.grid{display:grid;grid-template-columns:1fr;gap:18px}
 .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.12));padding:16px;border-radius:12px;box-shadow:0 6px 20px rgba(2,6,23,0.6)}
 ul.questions, ul.categories{list-style:none;padding:0;margin:0}
 li.q, li.category{padding:10px;border-radius:8px;margin-bottom:8px;border:1px solid rgba(255,255,255,0.03)}
 .meta{font-size:12px;color:var(--muted);margin-top:6px}
 .extra{font-size:12px;color:#9fe3ff;margin-top:4px}
-.more{display:none;margin-top:6px;color:#9fe3ff;} /* اللون للوضع الداكن */
-body.light-theme .more{color: rgba(0,0,0,0.6);} /* الوضع الفاتح */
+.more{display:none;margin-top:6px;color:#9fe3ff;} 
+body.light-theme .more{color: rgba(0,0,0,0.6);} 
 .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .tag{padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.02);font-size:12px}
 .help{font-size:13px;color:var(--muted)}
@@ -148,10 +148,10 @@ body.light-theme {
   color-scheme: light;
   background: linear-gradient(180deg,#ffffff 0%,#e2e8f0 100%);
 }
-/* السلايد بالوضع الفاتح */
+
 body.light-theme #settingsSlide {
-  background: rgba(240, 221, 221, 0.527); /* أبيض شفاف */
-  color: #0f1724;                        /* خط غامق */
+  background: rgba(240, 221, 221, 0.527); 
+  color: #0f1724;                      
   box-shadow: -4px 0 20px rgba(0,0,0,0.15);
   border: 1px solid #ddd;
 }
@@ -273,7 +273,7 @@ footer {
   font-size: 14px;
 }
 
-/* تقسيم الفوتر لثلاث أعمدة */
+
 footer .footer-container {
   display: flex;
   flex-wrap: wrap;
@@ -281,19 +281,19 @@ footer .footer-container {
   gap: 15px;
 }
 
-/* كل قسم داخل الفوتر */
+
 footer .footer-section {
   flex: 1 1 200px;
 }
 
-/* عناوين الأقسام */
+
 footer .footer-section h4 {
   margin-bottom: 8px;
   color: var(--accent);
   font-size: 16px;
 }
 
-/* القوائم داخل كل قسم */
+
 footer .footer-section ul {
   list-style: none;
   padding: 0;
@@ -304,7 +304,7 @@ footer .footer-section ul li {
   margin-bottom: 6px;
 }
 
-/* روابط داخل الفوتر */
+
 footer .footer-section ul li a {
   color: inherit;
   text-decoration: none;
@@ -315,7 +315,7 @@ footer .footer-section ul li a:hover {
   color: var(--accent);
 }
 
-/* النص النهائي */
+
 footer .footer-bottom {
   text-align: center;
   margin-top: 20px;
@@ -376,7 +376,7 @@ footer .footer-bottom {
   }
 }
 
-/* ✅ موبايل صغير جدًا */
+
 @media (max-width: 480px) {
   .site-title {
     font-size: 16px;
@@ -455,7 +455,7 @@ footer .footer-bottom {
   border-radius: 12px 0 0 12px;
 }
 
-/* أزرار صغيرة للتخصيص */
+
 #settingsSlide button {
   padding: 8px 12px;
   margin: 3px;
@@ -470,7 +470,7 @@ footer .footer-bottom {
   transform: scale(1.05);
 }
 
-/* أزرار ألوان */
+
 .colorBtn {
   width: 25px;
   height: 25px;
@@ -480,13 +480,13 @@ footer .footer-bottom {
   cursor: pointer;
 }
 
-/* أزرار حجم الخط */
+
 .fontSizeBtn {
   background: var(--card);
   color: var(--text);
 }
 
-/* الوضع الفاتح */
+
 body.light-theme #settingsSlide {
   background: rgba(240, 221, 221, 0.527);
   color: #0f1724;
@@ -494,22 +494,22 @@ body.light-theme #settingsSlide {
   border: 1px solid #ddd;
 }
 
-/* التوافق مع الهواتف */
+
 
 
   </style>
 </head>
 <body>
-  <!-- سلايد الإعدادات -->
+
 <div id="settingsSlide">
   <h3 style="margin-bottom:10px; color:var(--accent);">الإعدادات</h3>
 
-  <!-- تبديل الوضع الداكن / الفاتح -->
+
   <div style="margin-bottom:15px;">
     <button id="toggleTheme">تبديل الوضع</button>
   </div>
 
-  <!-- تغيير حجم الخط -->
+
   <div style="margin-bottom:15px;">
     <label style="display:block; margin-bottom:5px;">حجم الخط:</label>
     <button class="fontSizeBtn" data-size="14px">صغير</button>
@@ -544,7 +544,7 @@ body.light-theme #settingsSlide {
       <button id="export">طباعة / حفظ PDF</button>
     </div>
 
-    <!-- ترتيب جديد: الفئات فوق العنوان -->
+
     <div class="grid">
       <aside class="card">
         <h3>الفئات</h3>
@@ -560,13 +560,13 @@ body.light-theme #settingsSlide {
   
   </div>
 
-  <!-- سلايد الإعدادات -->
+
   <div id="settingsSlide">
     <button id="toggleTheme" style="margin-top:20px;">تبديل الوضع</button>
   </div>
   <footer style="margin-top:30px; padding:20px; background:var(--card); border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.3);">
   <div style="display:flex; flex-wrap:wrap; justify-content:space-between; gap:15px; color:var(--text); font-size:14px;">
-    <!-- قسم سياسات الاستخدام -->
+
     <div style="flex:1 1 200px;">
       <h4 style="margin-bottom:8px; color:var(--accent);">سياسات الاستخدام</h4>
       <ul style="list-style:none; padding:0; margin:0;">
@@ -576,7 +576,7 @@ body.light-theme #settingsSlide {
       </ul>
     </div>
 
-    <!-- قسم الدعم -->
+
     <div style="flex:1 1 200px;">
       <h4 style="margin-bottom:8px; color:var(--accent);">الدعم</h4>
       <ul style="list-style:none; padding:0; margin:0;">
@@ -586,7 +586,7 @@ body.light-theme #settingsSlide {
       </ul>
     </div>
 
-    <!-- قسم التواصل -->
+
     <div style="flex:1 1 200px;">
       <h4 style="margin-bottom:8px; color:var(--accent);">تواصل معنا</h4>
       <ul style="list-style:none; padding:0; margin:0;">
@@ -595,7 +595,7 @@ body.light-theme #settingsSlide {
         <li>تابعنا على:
           <a href="#" style="color:inherit; margin-left:5px;">فيسبوك</a> |
           <a href="#" style="color:inherit; margin-left:5px;">تويتر</a> |
-          <a href="#" style="color:inherit; margin-left:5px;">إنستجرام</a>
+          <a href="https://www.instagram.com/iq_.zx10/" style="color:inherit; margin-left:5px;">إنستجرام</a>
         </li>
       </ul>
     </div>
@@ -607,10 +607,9 @@ body.light-theme #settingsSlide {
 </footer>
 
 <script>
-/* ====== إعداد: ملف PDF محلي ====== */
-const PDF_LOCAL_PATH = 'pdf/book.pdf'; // ضع هنا اسم ملف PDF مع الامتداد
 
-/* ===== بيانات الأسئلة/المصطلحات ===== */
+const PDF_LOCAL_PATH = 'pdf/book.pdf'; 
+
 const ALL_ITEMS = [
  {id:44,cat:'ادارت مشاريع تكنلوجيا المعلومات',q:'',page:[133],more:''},
       {id:1,cat:'الامن السبراني و ادارت الحوادث',q:'تهديدات الامن السيبراني',page:[132,133],more:'1:الموظفون (الفساد الداخلي)<br>2: الوصول الغير مصرح به <br>3: الأجرائات الامنيت الضعيفة <br>4: عدم التدريب الكافي للموظفين<br>5: زيارت مواقع غير موثوقة<br>6:زوار المؤسسة/الشركة'},
@@ -778,13 +777,12 @@ const ALL_ITEMS = [
 {id:1119,cat:'المصطلحات',q:'',page:[287],more:''},
 {id:1120,cat:'المصطلحات',q:'',page:[287],more:''}];
 
-/* ===== عناصر DOM ====== */
+
 const categoriesDiv = document.getElementById('categories');
 const qList = document.getElementById('qList');
 const categoryTitle = document.getElementById('categoryTitle');
 const searchInput = document.getElementById('search');
 
-/* ===== سلايدر الإعدادات (فتح/إغلاق بالنقر خارج) ====== */
 const openSettings = document.getElementById('openSettings');
 const settingsSlide = document.getElementById('settingsSlide');
 
@@ -805,7 +803,7 @@ settingsSlide.addEventListener('click', (e) => {
   e.stopPropagation();
 });
 
-/* ===== إنشاء أزرار الفئات ===== */
+
 const uniqueCategories = ['الكل', ...new Set(ALL_ITEMS.map(i => i.cat).filter(Boolean))];
 uniqueCategories.forEach((cat, idx) => {
   const btn = document.createElement('button');
@@ -820,14 +818,14 @@ uniqueCategories.forEach((cat, idx) => {
   categoriesDiv.appendChild(btn);
 });
 
-/* ===== فتح PDF عند صفحة معينة ===== */
+
 function openPdfAtPage(pageNumber){
   let url = PDF_LOCAL_PATH;
   if(pageNumber){ url += `#page=${pageNumber}`; }
   window.open(url,'_blank','noopener');
 }
 
-/* ===== عرض الأسئلة حسب الفئة ===== */
+
 function showQuestions(category){
   qList.innerHTML='';
   categoryTitle.textContent = category==='الكل'?'كل الأسئلة والمصطلحات':category;
@@ -859,7 +857,7 @@ function showQuestions(category){
   });
 }
 
-/* ===== بحث حي ===== */
+
 searchInput.addEventListener('input',()=>{
   const q=searchInput.value.trim().toLowerCase();
   const results = ALL_ITEMS.filter(item =>
@@ -893,29 +891,29 @@ searchInput.addEventListener('input',()=>{
   });
 });
 
-/* ===== عرض افتراضي ===== */
+
 showQuestions('الكل');
 
-/* ===== تبديل الوضع الداكن / الفاتح ===== */
+
 const toggleThemeBtn = document.getElementById('toggleTheme');
 toggleThemeBtn.addEventListener('click',()=>{
   document.body.classList.toggle('light-theme');
 });
 
-// اختيار كل الأزرار التي تغير حجم الخط
+
 const fontSizeButtons = document.querySelectorAll('.fontSizeBtn');
 
-// استرجاع حجم الخط من localStorage عند تحميل الصفحة
+
 if(localStorage.getItem('fontSize')){
   document.body.style.fontSize = localStorage.getItem('fontSize');
 }
 
-// إضافة حدث لكل زر
+
 fontSizeButtons.forEach(btn => {
   btn.addEventListener('click', () => {
     const size = btn.getAttribute('data-size');
     document.body.style.fontSize = size;
-    localStorage.setItem('fontSize', size); // حفظ الحجم في localStorage
+    localStorage.setItem('fontSize', size); 
   });
 });
 

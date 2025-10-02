@@ -14,7 +14,7 @@
   body{
     font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Naskh Arabic",Arial;
     margin:0; 
-    padding:30px 20px;   /* زيادة الهامش العلوي والسفلي */
+    padding:30px 20px;  
     direction:rtl; 
     text-align:right;
     background:linear-gradient(180deg,#071024 0%,#071a2a 100%);
@@ -32,13 +32,13 @@
 
   .header{
     position:sticky; 
-    top:10px;   /* مسافة من أعلى الصفحة */
+    top:10px;  
     left:0; 
-    width:calc(100% - 40px);  /* يترك padding على الجانبين */
+    width:calc(100% - 40px); 
     display:flex; 
     justify-content:space-between; 
     align-items:center;
-    padding:15px 25px;   /* زيادة الحشو داخل الهيدر */
+    padding:15px 25px;  
     background:var(--card); 
     border-bottom:2px solid #333; 
     border-radius:12px; 
@@ -70,14 +70,14 @@
 
   .quiz-container{
     background-color:var(--card); 
-    padding:30px;  /* زيادة الحشو */
+    padding:30px; 
     border-radius:15px; 
-    margin-top:30px;  /* مسافة من الهيدر */
+    margin-top:30px; 
     box-shadow:0 6px 16px rgba(0,0,0,0.1); 
     transition: background 0.3s, color 0.3s;
     max-width:800px;  
     margin-left:auto;
-    margin-right:auto; /* مركزة الكويز */
+    margin-right:auto; 
   }
   .question{font-size:18px; margin-bottom:15px;}
   .answers button{display:block; width:100%; margin-bottom:10px; padding:12px; border-radius:10px; background-color:#3b82f6; color:white; font-size:16px;}
@@ -162,14 +162,14 @@
   }
 
   showQuestion();
-  // اختيار كل الأزرار التي تغير حجم الخط
+  
   const fontSizeButtons = document.querySelectorAll('.fontSizeBtn');
 
-  // إضافة حدث لكل زر
+
   fontSizeButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-      const size = btn.getAttribute('data-size'); // الحصول على حجم الخط من الزر
-      document.body.style.fontSize = size;        // تغيير حجم الخط على الجسم
+      const size = btn.getAttribute('data-size'); 
+      document.body.style.fontSize = size;       
     });
   });
 
